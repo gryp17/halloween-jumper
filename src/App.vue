@@ -1,21 +1,64 @@
 <template>
 	<div id="app">
-		game
-
-		<HelloWorld />
+		<MainMenu />
 	</div>
 </template>
 
 <script>
-	import HelloWorld from '@/components/HelloWorld';
+	import MainMenu from '@/components/MainMenu';
 
 	export default {
 		components: {
-			HelloWorld
+			MainMenu
 		}
 	};
 </script>
 
 <style lang="scss">
+	*,
+	:after,
+	:before {
+		box-sizing:border-box;
+	}
 
+	body, html {
+		margin: 0;
+		padding: 0;
+		height: 100%;
+	}
+
+	body {
+		background-color: $background;
+		font-family:  $font-family;
+		color: $text-color;
+
+		//prevent the page refresh on scroll on mobile devices
+		overscroll-behavior-y: contain;
+
+		:focus {
+			outline: none;
+		}
+
+		::-moz-focus-inner {
+			border: 0;
+		}
+
+		input {
+			filter: none;
+		}
+
+		button:focus {
+			outline: none;
+		}
+
+		a {
+			color: $purple;
+		}
+
+		#app {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+		}
+	}
 </style>
