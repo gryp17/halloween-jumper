@@ -60,9 +60,11 @@ module.exports = {
 		'no-lonely-if': 0,
 		indent: ['error', 'tab', { SwitchCase: 1 }],
 		'vue/html-indent': ['error', 'tab'],
+		/* disable this rule since it breaks babel-eslint for some reason
 		'vue/script-indent': ['error', 'tab', {
 			baseIndent: 1
 		}]
+		*/
 	},
 	//used together with the "vue/script-indent" rule
 	overrides: [

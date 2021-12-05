@@ -5,7 +5,7 @@
 </template>
 
 <script>
-	import MainMenu from '@/components/MainMenu';
+	import MainMenu from '@/components/main-menu/MainMenu';
 
 	export default {
 		components: {
@@ -28,7 +28,6 @@
 	}
 
 	body {
-		background-color: $background;
 		font-family:  $font-family;
 		color: $text-color;
 
@@ -49,10 +48,6 @@
 
 		button:focus {
 			outline: none;
-		}
-
-		a {
-			color: $purple;
 		}
 
 		#app {

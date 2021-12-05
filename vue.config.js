@@ -1,8 +1,22 @@
 const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
 	configureWebpack: {
 		plugins: [
+			new webpack.ProvidePlugin({
+				_: 'lodash',
+				jQuery: 'jquery',
+				$: 'jquery',
+				'global.jQuery': 'jquery'
+			}),
+			//copy all game images from "games/jumper/img" to "/dist/game-images/jumper"
+			new CopyWebpackPlugin([
+				{
+					from: './src/game/jumper/img',
+					to: './game-images/jumper'
+				}
+			]),
 			//mp3 files loader
 			new webpack.LoaderOptionsPlugin({
 				test: /\.mp3$/,

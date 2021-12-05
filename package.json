@@ -12,6 +12,7 @@
 		"vue": "^2.6.11",
 		"vuex": "^3.4.0",
 		"howler": "^2.2.3",
+		"jquery": "^3.6.0",
 		"lodash": "^4.17.15"
 	},
 	"devDependencies": {
