@@ -1,15 +1,47 @@
 <template>
 	<div id="app">
-		<MainMenu />
+		<LoadingIndicator
+			v-if="loading"
+			full-screen
+		/>
+		<template v-else>
+			<MainMenu v-if="menuIsOpened" />
+			<Game v-if="gameIsOpened" v />
+		</template>
 	</div>
 </template>
 
 <script>
+	import { mapGetters, mapActions } from 'vuex';
+	import LoadingIndicator from '@/components/LoadingIndicator';
 	import MainMenu from '@/components/main-menu/MainMenu';
+	import Game from '@/components/Game';
 
 	export default {
 		components: {
-			MainMenu
+			LoadingIndicator,
+			MainMenu,
+			Game
+		},
+		data() {
+			return {
+				loading: true
+			};
+		},
+		computed: {
+			...mapGetters('navigation', [
+				'menuIsOpened',
+				'gameIsOpened'
+			])
+		},
+		async mounted() {
+			await this.preloadGameImages();
+			this.loading = false;
+		},
+		methods: {
+			...mapActions('game', [
+				'preloadGameImages'
+			])
 		}
 	};
 </script>

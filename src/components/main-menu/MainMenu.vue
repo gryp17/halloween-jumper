@@ -1,52 +1,47 @@
 <template>
 	<div class="main-menu">
-		<LoadingIndicator
-			v-if="loading"
-			full-screen
+		<MainMenuBackground
+			v-if="mainMenuBackgrounds"
+			:images="mainMenuBackgrounds"
 		/>
-		<template v-else>
-			<MainMenuBackground
-				:images="mainMenuBackgrounds"
-			/>
 
-			<div class="inner-wrapper">
-				<img class="logo" src="@/assets/img/logo.png"/>
+		<div class="inner-wrapper">
+			<img class="logo" src="@/assets/img/logo.png"/>
 
-				<div>
-					Play
-				</div>
-				<div>
-					Settings
-				</div>
-				<div>
-					About
-				</div>
+			<div @click="openGame">
+				Play
 			</div>
-		</template>
+			<div>
+				Settings
+			</div>
+			<div>
+				About
+			</div>
+		</div>
 	</div>
 </template>
 
 <script>
-	import Game from '@/game/jumper/entry-points/game';
-	import LoadingIndicator from '@/components/LoadingIndicator';
+	import { mapState, mapActions } from 'vuex';
+
 	import MainMenuBackground from '@/components/main-menu/MainMenuBackground';
 
 	export default {
 		components: {
-			LoadingIndicator,
 			MainMenuBackground
 		},
-		data() {
-			return {
-				mainMenuBackgrounds: null,
-				loading: true
-			};
+		computed: {
+			...mapState('game', [
+				'images'
+			]),
+			mainMenuBackgrounds() {
+				return this.images.background;
+			}
 		},
-		mounted() {
-			Game.preloadGameImages((images) => {
-				this.mainMenuBackgrounds = images.background;
-				this.loading = false;
-			});
+		methods: {
+			...mapActions('navigation', [
+				'openGame'
+			])
 		}
 	};
 </script>
