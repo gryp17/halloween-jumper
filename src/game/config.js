@@ -19,7 +19,7 @@ export default {
 			invincibilityDuration: 1500 //miliseconds
 		},
 		background: {
-			speed: 0.5,
+			speed: 0.6,
 			availableBackgrounds: [
 				'forest',
 				'factory',
@@ -120,7 +120,7 @@ export default {
 		width: 1366,
 		height: 768,
 		background: {
-			speed: 0.5
+			speed: 0.6
 		}
 	},
 	defaultControls: {

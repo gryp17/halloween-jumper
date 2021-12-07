@@ -20,19 +20,9 @@ export default class Dummy extends Entity {
 	 * @param {Number} fallSpeedDead
 	 * @param {Number} jumpAcceleration
 	 * @param {Number} maxJumpHeight
-	 * @param {Number} player
-	 * @param {Boolean} controllable
-	 * @param {Object} playerData
 	 */
-	constructor(game, width, height, lives, invincibilityDuration, acceleration, maxSpeed, fallSpeed, fallSpeedDead, jumpAcceleration, maxJumpHeight, player = 1, controllable = false, playerData = {}) {
+	constructor(game, width, height, lives, invincibilityDuration, acceleration, maxSpeed, fallSpeed, fallSpeedDead, jumpAcceleration, maxJumpHeight) {
 		super(game, game.contexts.game, width, height);
-
-		this.player = player;
-		this.controllable = controllable;
-
-		this.socketId = playerData.socketId;
-		this.userId = playerData.id;
-		this.username = playerData.username;
 
 		this.dx = 0;
 		this.dy = fallSpeed;
@@ -61,32 +51,29 @@ export default class Dummy extends Entity {
 		this.angle = 0;
 		this.alpha = 1;
 
-		//the player's own character always uses the green skin
-		this.skin = this.controllable ? 'green' : 'yellow';
+		this.skin = 'green';
 		this.facingDirection = 'right';
 
-		if (!game.isServer) {
-			this.availableSprites = {
-				idle: {
-					left: new Sprite(this.game.images.dummy[this.skin].left.idle, 7, true),
-					right: new Sprite(this.game.images.dummy[this.skin].right.idle, 7, true)
-				},
-				moving: {
-					left: new Sprite(this.game.images.dummy[this.skin].left.running, 7, true),
-					right: new Sprite(this.game.images.dummy[this.skin].right.running, 7, true)
-				},
-				jumping: {
-					left: new Sprite(this.game.images.dummy[this.skin].left.jumping, 0, true),
-					right: new Sprite(this.game.images.dummy[this.skin].right.jumping, 0, true)
-				},
-				dead: {
-					left: new Sprite(this.game.images.dummy[this.skin].left.dead, 10, true),
-					right: new Sprite(this.game.images.dummy[this.skin].right.dead, 10, true)
-				}
-			};
+		this.availableSprites = {
+			idle: {
+				left: new Sprite(this.game.images.dummy[this.skin].left.idle, 7, true),
+				right: new Sprite(this.game.images.dummy[this.skin].right.idle, 7, true)
+			},
+			moving: {
+				left: new Sprite(this.game.images.dummy[this.skin].left.running, 7, true),
+				right: new Sprite(this.game.images.dummy[this.skin].right.running, 7, true)
+			},
+			jumping: {
+				left: new Sprite(this.game.images.dummy[this.skin].left.jumping, 0, true),
+				right: new Sprite(this.game.images.dummy[this.skin].right.jumping, 0, true)
+			},
+			dead: {
+				left: new Sprite(this.game.images.dummy[this.skin].left.dead, 10, true),
+				right: new Sprite(this.game.images.dummy[this.skin].right.dead, 10, true)
+			}
+		};
 
-			this.image = this.sprites.idle.move();
-		}
+		this.image = this.sprites.idle.move();
 
 		this.reset();
 	}
@@ -103,48 +90,6 @@ export default class Dummy extends Entity {
 		});
 
 		return sprites;
-	}
-
-	/**
-	 * Returns the dummy state
-	 * @returns {Object}
-	 */
-	get state() {
-		return {
-			...super.state,
-			player: this.player,
-			userId: this.userId,
-			username: this.username,
-			facingDirection: this.facingDirection,
-			dead: this.dead,
-			invincible: this.invincible,
-			lives: this.lives,
-			idle: this.idle,
-			jumping: this.jumping,
-			flipping: this.flipping,
-			angle: this.angle,
-			alpha: this.alpha
-		};
-	}
-
-	/**
-	 * Sets the dummy state
-	 * @param {Object} state
-	 */
-	set state(state) {
-		super.state = state;
-
-		this.userId = state.userId;
-		this.username = state.username;
-		this.facingDirection = state.facingDirection;
-		this.dead = state.dead;
-		this.invincible = state.invincible;
-		this.lives = state.lives;
-		this.idle = state.idle;
-		this.jumping = state.jumping;
-		this.flipping = state.flipping;
-		this.angle = state.angle;
-		this.alpha = state.alpha;
 	}
 
 	/**
@@ -166,9 +111,7 @@ export default class Dummy extends Entity {
 		this.game.triggerEvent('dead');
 
 		if (this.lives === 0) {
-			//if player 1 loses all his lives player 2 wins and vice versa
-			const winner = this.player === 1 ? 2 : 1;
-			this.game.onPlayerScore(winner);
+			this.game.onGameOver();
 		}
 
 		return this.lives;
@@ -192,7 +135,7 @@ export default class Dummy extends Entity {
 		this.alpha = 1;
 
 		//make the dummy invincible for X seconds
-		if (this.game.isServer && giveInvincibility) {
+		if (giveInvincibility) {
 			this.invincible = true;
 
 			clearTimeout(this.invincibilityTimeoutId);
@@ -208,10 +151,7 @@ export default class Dummy extends Entity {
 	 * If the dummy is controllable it processes the current inputs state first
 	 */
 	move() {
-		if (this.controllable) {
-			const inputs = this.socketId ? this.game.inputs[this.socketId] : this.game.inputs;
-			this.processInputs(inputs);
-		}
+		this.processInputs(this.game.inputs);
 
 		//maximum jump height reached
 		if (this.jumping) {
@@ -281,9 +221,7 @@ export default class Dummy extends Entity {
 		this.jumpingStartingPoint = this.y;
 		this.dy = this.jumpAcceleration;
 
-		if (this.game.isServer) {
-			this.game.triggerEvent('jump');
-		}
+		this.game.triggerEvent('jump');
 	}
 
 	/**
@@ -313,9 +251,7 @@ export default class Dummy extends Entity {
 	flip() {
 		this.flipping = true;
 
-		if (this.game.isServer) {
-			this.game.triggerEvent('flip');
-		}
+		this.game.triggerEvent('flip');
 	}
 
 	/**
@@ -408,12 +344,10 @@ export default class Dummy extends Entity {
 
 		//bottom end of screen
 		if (this.top >= this.canvas.height) {
-			if (this.game.isServer) {
-				const remainingLives = this.liveLost();
+			const remainingLives = this.liveLost();
 
-				if (remainingLives > 0) {
-					this.reset(true);
-				}
+			if (remainingLives > 0) {
+				this.reset(true);
 			}
 		}
 

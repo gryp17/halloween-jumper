@@ -28,7 +28,7 @@
 			};
 
 			//set the selected background by selecting a random background image
-			menuConfig.background.selectedBackground = _.sample(Object.keys(this.images));
+			menuConfig.background.selectedBackground = _.sample(Object.keys(this.images.background));
 
 			menuBackground = new MenuBackground(canvasIds, '.main-menu-background', this.images, menuConfig);
 			menuBackground.start();

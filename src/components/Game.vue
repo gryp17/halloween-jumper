@@ -25,17 +25,9 @@
 				enemies: 'enemies-canvas'
 			};
 
-			game = new Game(canvasIds, '.canvas-wrapper', this.images, config.game, this.controls, 1, {
-				/*
-				onUpdateInputs: this.updateInputs,
-				playMusic: this.playMusic,
-				playTrack: (track, volume) => {
-					this.playTrack({
-						track,
-						volume
-					});
-				}
-				*/
+			game = new Game(canvasIds, '.canvas-wrapper', this.images, config.game, config.defaultControls, {
+				playMusic() {},
+				playTrack: (track, volume) => {}
 			});
 
 			game.start();

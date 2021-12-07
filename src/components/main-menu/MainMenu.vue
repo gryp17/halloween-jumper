@@ -1,8 +1,8 @@
 <template>
 	<div class="main-menu">
 		<MainMenuBackground
-			v-if="mainMenuBackgrounds"
-			:images="mainMenuBackgrounds"
+			v-if="images"
+			:images="images"
 		/>
 
 		<div class="inner-wrapper">
@@ -33,10 +33,7 @@
 		computed: {
 			...mapState('game', [
 				'images'
-			]),
-			mainMenuBackgrounds() {
-				return this.images.background;
-			}
+			])
 		},
 		methods: {
 			...mapActions('navigation', [

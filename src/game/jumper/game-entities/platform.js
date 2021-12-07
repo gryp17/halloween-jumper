@@ -42,35 +42,12 @@ export default class Platform extends Entity {
 		this.dx = this.game.gameSpeed * -1;
 		this.dy = 0;
 
-		if (!game.isServer) {
-			if (type === 'large') {
-				//pick one of the "large" image variations
-				this.image = _.sample(game.images.platform[type]);
-			} else {
-				this.image = game.images.platform[type];
-			}
+		if (type === 'large') {
+			//pick one of the "large" image variations
+			this.image = _.sample(game.images.platform[type]);
+		} else {
+			this.image = game.images.platform[type];
 		}
-	}
-
-	/**
-	 * Returns the platform state
-	 * @returns {Object}
-	 */
-	get state() {
-		return {
-			...super.state,
-			floating: this.floating
-		};
-	}
-
-	/**
-	 * Sets the platform state
-	 * @param {Object} state
-	 */
-	set state(state) {
-		super.state = state;
-
-		this.floating = state.floating;
 	}
 
 	/**
@@ -109,11 +86,11 @@ export default class Platform extends Entity {
 	move() {
 		const isOutOfScreen = this.right < 0;
 
-		//sync the platform speed with the updated game speed (maybe this should be done using the set state logic once the server is implemented)
+		//sync the platform speed with the updated game speed
 		this.dx = this.game.gameSpeed * -1;
 
 		//reset the position once the platform is outside of the viewpoer
-		if (this.game.isServer && isOutOfScreen) {
+		if (isOutOfScreen) {
 			this.reset();
 		}
 

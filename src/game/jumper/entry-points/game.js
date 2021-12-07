@@ -21,18 +21,20 @@ export default class Jumper extends GameClient {
 	 * @param {Object} images
 	 * @param {Object} config
 	 * @param {Object} controls
-	 * @param {Number} player
 	 * @param {Object} events
 	 */
-	constructor(canvasIds, canvasWrapper, images, config, controls, player, { onUpdateInputs, playMusic, playTrack }) {
-		super(canvasIds, canvasWrapper, images, config, controls, player, { onUpdateInputs, playMusic, playTrack });
+	constructor(canvasIds, canvasWrapper, images, config, controls, events) {
+		super(canvasIds, canvasWrapper, images, config, controls, events);
+
+		this.gameSpeed = this.config.initialSpeed;
+		this.speedIncrease = this.config.speedIncrease;
+		this.speedUpInterval = this.config.speedUpInterval;
+		this.speedUpIntervalId;
 
 		this.background;
 		this.platforms = [];
 		this.enemies = [];
-		this.dummies = [];
-
-		this.gameSpeed = this.config.initialSpeed;
+		this.dummy;
 
 		//initialize the keyboard and touchscreen controls
 		this.keyboard = new Keyboard(this.gameControls, this.contexts.game.canvas);
@@ -44,19 +46,8 @@ export default class Jumper extends GameClient {
 	 * @returns {Object}
 	 */
 	get hudData() {
-		//order the dummies so the controllable player is always first in the list
-		const lives = [...this.dummies].sort((a, b) => {
-			return a.controllable ? -1 : 1;
-		}).map((dummy) => {
-			return {
-				id: dummy.userId,
-				username: dummy.username,
-				lives: dummy.lives
-			};
-		});
-
 		return {
-			lives
+			lives: this.dummy.lives
 		};
 	}
 
@@ -84,7 +75,7 @@ export default class Jumper extends GameClient {
 			this.config.platform.maxFloatDistance
 		];
 
-		const dummiesConfig = [
+		const dummyConfig = [
 			this.config.dummy.width,
 			this.config.dummy.height,
 			this.config.dummy.lives,
@@ -104,7 +95,6 @@ export default class Jumper extends GameClient {
 			this.config.background.selectedBackground
 		);
 
-		//the X and Y coordinates match the ones on the server, but they will get overwritten on the first game loop anyway
 		this.platforms = [
 			new Platform(this, 'large', 600, 530, ...platformsConfig),
 			new Platform(this, 'medium', 900, 500, ...platformsConfig),
@@ -167,25 +157,18 @@ export default class Jumper extends GameClient {
 			)
 		];
 
-		this.dummies = [...Array(this.config.maxPlayers).keys()].map((value, index) => {
-			const playerIndex = index + 1;
-			const controllable = this.player === playerIndex;
-			return new Dummy(
-				this,
-				...dummiesConfig,
-				playerIndex,
-				controllable
-			);
-		});
-
-		//reorder the dummies so when drawing the entities the controllable dummy appears on top of the opponent's dummy
-		this.dummies.sort((a, b) => {
-			return a.controllable ? 1 : -1;
-		});
+		this.dummy = new Dummy(
+			this,
+			...dummyConfig
+		);
 
 		//listen for the keyboard and touchscreen events
 		this.keyboard.listen();
 		this.touchscreen.listen();
+
+		this.speedUpIntervalId = setInterval(() => {
+			this.speedUp();
+		}, this.speedUpInterval);
 
 		super.start();
 	}
@@ -197,52 +180,27 @@ export default class Jumper extends GameClient {
 		//clear all input event listeners
 		this.keyboard.removeAllEventListeners();
 		this.touchscreen.removeAllEventListeners();
+
+		clearInterval(this.speedUpIntervalId);
+
 		super.stop();
 	}
 
 	/**
-	 * Updates the game state with the data received from the server
-	 * @param {Object} data
+	 * Speeds up the game
 	 */
-	updateData({ events, platforms, dummies, enemies, gameSpeed, scores, gameOver }) {
-		platforms.forEach((platform, index) => {
-			this.platforms[index].state = platform;
-		});
-
-		//don't rely on the index and look up the correct dummy to update using the dummy.player property
-		dummies.forEach((state) => {
-			this.dummies.forEach((dummy) => {
-				if (dummy.player === state.player) {
-					dummy.state = state;
-				}
-			});
-		});
-
-		enemies.forEach((enemy, index) => {
-			this.enemies[index].state = enemy;
-		});
-
-		this.gameSpeed = gameSpeed;
-
-		super.updateData({ events, scores, gameOver });
+	speedUp() {
+		this.gameSpeed = parseFloat((this.gameSpeed + this.speedIncrease).toFixed(1));
 	}
 
-	/**
-	 * Handles the server events
-	 * @param {Object} events
-	 */
-	handleServerEvents(events) {
-		if (events.jump) {
-			this.playJumpSound();
-		}
+	triggerEvent(event) {
+		//TODO: get rid of this function
+		console.log('trigger event', event);
+	}
 
-		if (events.flip) {
-			this.playFlipSound();
-		}
-
-		if (events.dead) {
-			this.playDeadSound();
-		}
+	onGameOver() {
+		//TODO: implement this
+		console.log('GAME OVER');
 	}
 
 	/**
@@ -298,9 +256,7 @@ export default class Jumper extends GameClient {
 			enemy.move();
 		});
 
-		this.dummies.forEach((dummy) => {
-			dummy.move();
-		});
+		this.dummy.move();
 	}
 
 	/**
@@ -317,8 +273,6 @@ export default class Jumper extends GameClient {
 			enemy.draw();
 		});
 
-		this.dummies.forEach((dummy) => {
-			dummy.draw();
-		});
+		this.dummy.draw();
 	}
 }

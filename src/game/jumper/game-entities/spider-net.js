@@ -21,9 +21,7 @@ export default class SpiderNet extends Entity {
 		this.x = this.spider.center.x;
 		this.y = 0;
 
-		if (!game.isServer) {
-			this.image = game.images.spiderNet;
-		}
+		this.image = game.images.spiderNet;
 	}
 
 	/**

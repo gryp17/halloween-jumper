@@ -1,5 +1,6 @@
 import GameClient from '../../common/game-client';
-import Background from '../game-entities/background';
+// import Background from '../game-entities/background';
+import Background from '@/game/jumper/game-entities/background';
 
 /**
  * MenuBackground class
@@ -13,11 +14,7 @@ export default class MenuBackground extends GameClient {
 	 * @param {Object} config
 	 */
 	constructor(canvasIds, canvasWrapper, images, config) {
-		const events = {
-			onUpdateInputs: () => {}
-		};
-
-		super(canvasIds, canvasWrapper, images, config, {}, null, events);
+		super(canvasIds, canvasWrapper, images, config, {}, { playMusic: () => {}, playTrack: () => {} });
 
 		this.background;
 	}

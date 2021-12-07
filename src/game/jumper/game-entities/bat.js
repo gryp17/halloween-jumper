@@ -40,35 +40,10 @@ export default class Bat extends Entity {
 		this.dead = false;
 		this.angle = 0;
 
-		if (!game.isServer) {
-			this.deadImage = this.game.images.bat.dead;
-			this.flyingSprite = new Sprite(this.game.images.bat.flying, 1, true);
+		this.deadImage = this.game.images.bat.dead;
+		this.flyingSprite = new Sprite(this.game.images.bat.flying, 1, true);
 
-			this.image = this.flyingSprite.move();
-		}
-	}
-
-	/**
-	 * Returns the bat state
-	 * @returns {Object}
-	 */
-	get state() {
-		return {
-			...super.state,
-			dead: this.dead,
-			angle: this.angle
-		};
-	}
-
-	/**
-	 * Sets the bat state
-	 * @param {Object} state
-	 */
-	set state(state) {
-		super.state = state;
-
-		this.dead = state.dead;
-		this.angle = state.angle;
+		this.image = this.flyingSprite.move();
 	}
 
 	/**
@@ -86,7 +61,7 @@ export default class Bat extends Entity {
 	move() {
 		const isOutOfScreen = this.right < 0 || this.top > this.canvas.height;
 
-		if (this.game.isServer && isOutOfScreen) {
+		if (isOutOfScreen) {
 			this.reset();
 		}
 

@@ -17,9 +17,7 @@ export default class Background extends Entity {
 
 		this.selectedBackground = selectedBackground;
 
-		if (!game.isServer) {
-			this.image = game.images.background[selectedBackground];
-		}
+		this.image = game.images.background[selectedBackground];
 	}
 
 	/**

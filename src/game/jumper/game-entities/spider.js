@@ -44,42 +44,15 @@ export default class Spider extends Entity {
 		this.idle = false;
 		this.dead = false;
 
-		if (!game.isServer) {
-			this.deadImage = this.game.images.spider.dead;
-			this.idleImage = this.game.images.spider.idle;
-			this.movingSprite = new Sprite(this.game.images.spider.moving, 10, true);
+		this.deadImage = this.game.images.spider.dead;
+		this.idleImage = this.game.images.spider.idle;
+		this.movingSprite = new Sprite(this.game.images.spider.moving, 10, true);
 
-			this.image = this.idleImage;
-		}
+		this.image = this.idleImage;
 
 		this.spiderNet = new SpiderNet(game, this, netWidth);
 
-		if (this.game.isServer) {
-			this.randomizeHangParameters();
-		}
-	}
-
-	/**
-	 * Returns the spider state
-	 * @returns {Object}
-	 */
-	get state() {
-		return {
-			...super.state,
-			dead: this.dead,
-			idle: this.idle
-		};
-	}
-
-	/**
-	 * Sets the spider state
-	 * @param {Object} state
-	 */
-	set state(state) {
-		super.state = state;
-
-		this.dead = state.dead;
-		this.idle = state.idle;
+		this.randomizeHangParameters();
 	}
 
 	/**
@@ -105,7 +78,7 @@ export default class Spider extends Entity {
 	move() {
 		const isOutOfScreen = this.right < 0 || this.top > this.canvas.height;
 
-		if (this.game.isServer && isOutOfScreen) {
+		if (isOutOfScreen) {
 			this.reset();
 		}
 
@@ -144,9 +117,7 @@ export default class Spider extends Entity {
 			this.idle = true;
 
 			//start moving up after some delay
-			if (this.game.isServer) {
-				this.startMovingAfterDelay('up');
-			}
+			this.startMovingAfterDelay('up');
 		}
 
 		//stop moving up
@@ -156,9 +127,7 @@ export default class Spider extends Entity {
 			this.idle = true;
 
 			//start moving down after some delay
-			if (this.game.isServer) {
-				this.startMovingAfterDelay('down');
-			}
+			this.startMovingAfterDelay('down');
 		}
 	}
 
