@@ -53,7 +53,7 @@
 			padding: 20px;
 			margin: auto;
 			max-width: 700px;
-			background-color: rgba($black, 0.6);
+			background-color: $transparent-background;
 			border-radius: 3px;
 			z-index: 1;
 

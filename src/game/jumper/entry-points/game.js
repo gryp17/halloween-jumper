@@ -31,10 +31,14 @@ export default class Jumper extends GameClient {
 		this.speedUpInterval = this.config.speedUpInterval;
 		this.speedUpIntervalId;
 
+		this.onGameOver = events.onGameOver;
+
 		this.background;
 		this.platforms = [];
 		this.enemies = [];
 		this.dummy;
+
+		this.gameOver = false;
 
 		//initialize the keyboard and touchscreen controls
 		this.keyboard = new Keyboard(this.gameControls, this.contexts.game.canvas);
@@ -177,13 +181,27 @@ export default class Jumper extends GameClient {
 	 * Stops the game
 	 */
 	stop() {
-		//clear all input event listeners
+		this.cleanUp();
+		super.stop();
+	}
+
+	/**
+	 * Cleans up all event handlers and timeouts/intervals
+	 */
+	cleanUp() {
 		this.keyboard.removeAllEventListeners();
 		this.touchscreen.removeAllEventListeners();
 
 		clearInterval(this.speedUpIntervalId);
+	}
 
-		super.stop();
+	/**
+	 * Triggers the game over event and raises the game over flag
+	 */
+	gameIsOver() {
+		this.gameOver = true;
+		this.cleanUp();
+		this.onGameOver();
 	}
 
 	/**
@@ -196,11 +214,6 @@ export default class Jumper extends GameClient {
 	triggerEvent(event) {
 		//TODO: get rid of this function
 		console.log('trigger event', event);
-	}
-
-	onGameOver() {
-		//TODO: implement this
-		console.log('GAME OVER');
 	}
 
 	/**
