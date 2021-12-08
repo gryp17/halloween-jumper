@@ -111,7 +111,7 @@ export default class Dummy extends Entity {
 		this.game.triggerEvent('dead');
 
 		if (this.lives === 0) {
-			this.game.gameIsOver();
+			this.game.gameOver();
 		}
 
 		return this.lives;

@@ -22,6 +22,7 @@ export default class GameClient {
 		this.animationFrameId;
 		this.canvasIds = canvasIds;
 		this.canvasWrapper = canvasWrapper;
+		this.gameIsOver = false;
 		this.musicIsPlaying = false;
 		this.config = config;
 		this.inputs;
@@ -29,6 +30,7 @@ export default class GameClient {
 		this.scores = {};
 
 		//events
+		this.onGameOver = events.onGameOver;
 		this.playMusic = events.playMusic;
 		this.playTrack = events.playTrack;
 
@@ -92,6 +94,14 @@ export default class GameClient {
 			cancelAnimationFrame(this.animationFrameId);
 			this.animationFrameId = null;
 		}
+	}
+
+	/**
+	 * Triggers the game over event and raises the game over flag
+	 */
+	gameOver() {
+		this.gameIsOver = true;
+		this.onGameOver();
 	}
 
 	/**
