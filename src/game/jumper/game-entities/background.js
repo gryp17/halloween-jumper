@@ -21,6 +21,17 @@ export default class Background extends Entity {
 	}
 
 	/**
+	 * Returns the background state
+	 * @returns {Object}
+	 */
+	get state() {
+		return {
+			...super.state,
+			selectedBackground: this.selectedBackground
+		};
+	}
+
+	/**
 	 * Moves the background
 	 */
 	move() {

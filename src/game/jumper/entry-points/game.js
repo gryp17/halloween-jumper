@@ -20,11 +20,12 @@ export default class Jumper extends GameClient {
 	 * @param {String} canvasWrapper
 	 * @param {Object} images
 	 * @param {Object} config
+	 * @param {Object} customSettings
 	 * @param {Object} controls
 	 * @param {Object} events
 	 */
-	constructor(canvasIds, canvasWrapper, images, config, controls, events) {
-		super(canvasIds, canvasWrapper, images, config, controls, events);
+	constructor(canvasIds, canvasWrapper, images, config, customSettings, controls, events) {
+		super(canvasIds, canvasWrapper, images, config, customSettings, controls, events);
 
 		this.gameSpeed = this.config.initialSpeed;
 		this.speedIncrease = this.config.speedIncrease;
@@ -39,6 +40,31 @@ export default class Jumper extends GameClient {
 		//initialize the keyboard and touchscreen controls
 		this.keyboard = new Keyboard(this.gameControls, this.contexts.game.canvas);
 		this.touchscreen = new Touchscreen(this.gameControls, this.contexts.game.canvas);
+	}
+
+	/**
+	 * Merges the defaultConfig and the customSettings
+	 * @param {Object} defaultConfig
+	 * @param {Object} customSettings
+	 * @returns {Object}
+	 */
+	applySettings(defaultConfig, customSettings) {
+		//map each setting type to the path in the config that it corresponds to
+		const settingsPathMap = {
+			gameSpeed: 'speedUpInterval',
+			background: 'background.selectedBackground',
+			lives: 'dummy.lives',
+			platformsDistance: 'platform.maxDistance'
+		};
+
+		const config = super.applySettings(defaultConfig, customSettings, settingsPathMap);
+
+		//pick a random background if the default option was selected
+		if (!customSettings || customSettings.background === 'default') {
+			config.background.selectedBackground = _.sample(config.background.availableBackgrounds);
+		}
+
+		return config;
 	}
 
 	/**

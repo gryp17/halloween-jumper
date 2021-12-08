@@ -4,7 +4,9 @@ import Game from '@/game/jumper/entry-points/game';
 const getDefaultState = () => {
 	return {
 		images: {},
-		settings: {} //controls, audio settings etc.
+		settings: {}, //controls, audio settings etc.
+		backgroundPosition: 0,
+		backgroundImage: null
 	};
 };
 
@@ -17,6 +19,12 @@ const getters = {
 const mutations = {
 	SET_IMAGES(state, images) {
 		Vue.set(state, 'images', images);
+	},
+	SET_BACKGROUND_POSITION(state, position) {
+		state.backgroundPosition = position;
+	},
+	SET_BACKGROUND_IMAGE(state, image) {
+		state.backgroundImage = image;
 	}
 };
 
@@ -40,6 +48,15 @@ const actions = {
 				resolve(images);
 			});
 		});
+	},
+	/**
+	 * Sets the background horizontal position and background image
+	 * @param {Object} context
+	 * @param {Object} state
+	 */
+	setBackgroundState(context, { x, selectedBackground }) {
+		context.commit('SET_BACKGROUND_POSITION', x);
+		context.commit('SET_BACKGROUND_IMAGE', selectedBackground);
 	}
 };
 

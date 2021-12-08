@@ -2,8 +2,11 @@
 	<div class="game-over">
 		<div class="inner-wrapper">
 			<img class="game-over-image" src="@/assets/img/game-over.png" />
-			<div @click="$emit('new-game')">
-				New game
+			<div @click="$emit('restart')">
+				Restart
+			</div>
+			<div @click="$emit('main-menu')">
+				Main menu
 			</div>
 		</div>
 	</div>

@@ -15,16 +15,17 @@ export default class GameClient {
 	 * @param {String} canvasWrapper
 	 * @param {Object} images
 	 * @param {Object} config
+	 * @param {Object} customSettings
 	 * @param {Object} controls
 	 * @param {Object} events
 	 */
-	constructor(canvasIds, canvasWrapper, images, config, controls, events) {
+	constructor(canvasIds, canvasWrapper, images, config, customSettings, controls, events) {
 		this.animationFrameId;
 		this.canvasIds = canvasIds;
 		this.canvasWrapper = canvasWrapper;
 		this.gameIsOver = false;
 		this.musicIsPlaying = false;
-		this.config = config;
+		this.config = this.applySettings(config, customSettings);
 		this.inputs;
 		this.images = images;
 		this.scores = {};
@@ -51,6 +52,29 @@ export default class GameClient {
 	 */
 	static preloadGameImages(gameImages, callback) {
 		new ImageRepository(gameImages, callback);
+	}
+
+	/**
+	 * Merges the defaultConfig and the customSettings
+	 * @param {Object} defaultConfig
+	 * @param {Object} customSettings
+	 * @param {Object} settingsPathMap
+	 * @returns {Object}
+	 */
+	applySettings(defaultConfig, customSettings, settingsPathMap) {
+		const config = {
+			...defaultConfig
+		};
+
+		_.forOwn(defaultConfig.configurableSettings, (predefinedValues, settingType) => {
+			if (customSettings && customSettings[settingType]) {
+				const path = settingsPathMap[settingType];
+				const value = predefinedValues[customSettings[settingType]];
+				_.set(config, path, value);
+			}
+		});
+
+		return config;
 	}
 
 	/**

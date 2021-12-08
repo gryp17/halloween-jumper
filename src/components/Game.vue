@@ -4,7 +4,8 @@
 
 		<GameOver
 			v-if="gameOver"
-			@new-game="openMainMenu"
+			@restart="onRestart"
+			@main-menu="onOpenMainMenu"
 		/>
 	</div>
 </template>
@@ -30,23 +31,16 @@
 		},
 		computed: {
 			...mapState('game', [
-				'images'
+				'images',
+				'backgroundPosition',
+				'backgroundImage'
 			])
 		},
+		/**
+		 * Starts the game
+		 */
 		mounted() {
-			const canvasIds = {
-				background: 'background-canvas',
-				game: 'game-canvas',
-				enemies: 'enemies-canvas'
-			};
-
-			game = new Game(canvasIds, '.canvas-wrapper', this.images, config.game, config.defaultControls, {
-				onGameOver: this.onGameOver,
-				playMusic() {},
-				playTrack: (track, volume) => {}
-			});
-
-			game.start();
+			this.initGame();
 		},
 		/**
 		 * Stops the game if it's still running
@@ -63,11 +57,62 @@
 			...mapActions('navigation', [
 				'openMainMenu'
 			]),
+			...mapActions('game', [
+				'setBackgroundState'
+			]),
+			/**
+			 * Starts the game
+			 */
+			initGame() {
+				const canvasIds = {
+					background: 'background-canvas',
+					game: 'game-canvas',
+					enemies: 'enemies-canvas'
+				};
+
+				//use the same background image as the main menu background
+				const customSettings = {
+					background: this.backgroundImage
+				};
+
+				game = new Game(canvasIds, '.canvas-wrapper', this.images, config.game, customSettings, config.defaultControls, {
+					onGameOver: this.onGameOver,
+					playMusic() {},
+					playTrack: (track, volume) => {}
+				});
+
+				game.start();
+
+				//start the game from the same background position as the main menu background
+				game.background.x = this.backgroundPosition;
+			},
 			/**
 			 * Raises the gameOver flag and displays the game over screen
 			 */
 			onGameOver() {
 				this.gameOver = true;
+			},
+			/**
+			 * Saves the background position and image so they can be reused in the main menu or when restarting the game
+			 */
+			saveBackgroundParams() {
+				this.setBackgroundState(game.background.state);
+			},
+			/**
+			 * Restarts the game with the same settings
+			 */
+			onRestart() {
+				this.saveBackgroundParams();
+				this.gameOver = false;
+				game.stop();
+				this.initGame();
+			},
+			/**
+			 * Opens the main menu screen
+			 */
+			onOpenMainMenu() {
+				this.saveBackgroundParams();
+				this.openMainMenu();
 			}
 		}
 	};

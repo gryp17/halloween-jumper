@@ -2,13 +2,16 @@
 	<div class="main-menu">
 		<MainMenuBackground
 			v-if="images"
+			ref="menuBackground"
+			:starting-position="backgroundPosition"
+			:image="menuBackground"
 			:images="images"
 		/>
 
 		<div class="inner-wrapper">
 			<img class="logo" src="@/assets/img/logo.png"/>
 
-			<div @click="openGame">
+			<div @click="onOpenGame">
 				Play
 			</div>
 			<div>
@@ -30,15 +33,42 @@
 		components: {
 			MainMenuBackground
 		},
+		data() {
+			return {
+				menuBackground: null
+			};
+		},
 		computed: {
 			...mapState('game', [
-				'images'
+				'images',
+				'backgroundPosition',
+				'backgroundImage'
 			])
+		},
+		/**
+		 * Sets the menu background or picks a random one from the list
+		 */
+		created() {
+			this.menuBackground = this.backgroundImage || _.sample(Object.keys(this.images.background));
 		},
 		methods: {
 			...mapActions('navigation', [
 				'openGame'
-			])
+			]),
+			...mapActions('game', [
+				'setBackgroundState'
+			]),
+			/**
+			 * Saves the background state and starts a new game
+			 */
+			onOpenGame() {
+				//save the menu background position and image so it can be reused in the game
+				const state = this.$refs.menuBackground.getBackgroundState();
+
+				this.setBackgroundState(state);
+
+				this.openGame();
+			}
 		}
 	};
 </script>

@@ -10,6 +10,14 @@
 
 	export default {
 		props: {
+			startingPosition: {
+				type: Number,
+				default: 0
+			},
+			image: {
+				type: String,
+				required: true
+			},
 			images: {
 				type: Object,
 				required: true
@@ -27,11 +35,14 @@
 				...config.menu
 			};
 
-			//set the selected background by selecting a random background image
-			menuConfig.background.selectedBackground = _.sample(Object.keys(this.images.background));
+			//set the selected background image
+			menuConfig.background.selectedBackground = this.image;
 
 			menuBackground = new MenuBackground(canvasIds, '.main-menu-background', this.images, menuConfig);
 			menuBackground.start();
+
+			//move the background image to the specified position
+			menuBackground.background.x = this.startingPosition;
 		},
 		/**
 		 * Stops the game loop before destroying the component
@@ -39,6 +50,15 @@
 		beforeDestroy() {
 			if (menuBackground) {
 				menuBackground.stop();
+			}
+		},
+		methods: {
+			/**
+			 * Returns the current background state
+			 * @returns {Object}
+			 */
+			getBackgroundState() {
+				return menuBackground.background.state;
 			}
 		}
 	};
