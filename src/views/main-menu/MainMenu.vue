@@ -2,24 +2,16 @@
 	<div class="main-menu">
 		<MainMenuBackground
 			v-if="images"
-			ref="menuBackground"
 			:starting-position="backgroundPosition"
 			:image="menuBackground"
 			:images="images"
+			@before-destroy="onMainMenuBackgroundDestroyed"
 		/>
 
 		<div class="inner-wrapper">
 			<img class="logo" src="@/assets/img/logo.png"/>
 
-			<div @click="onOpenGame">
-				Play
-			</div>
-			<div>
-				Settings
-			</div>
-			<div>
-				About
-			</div>
+			<router-view></router-view>
 		</div>
 	</div>
 </template>
@@ -27,7 +19,7 @@
 <script>
 	import { mapState, mapActions } from 'vuex';
 
-	import MainMenuBackground from '@/components/main-menu/MainMenuBackground';
+	import MainMenuBackground from '@/components/MainMenuBackground';
 
 	export default {
 		components: {
@@ -52,22 +44,15 @@
 			this.menuBackground = this.backgroundImage || _.sample(Object.keys(this.images.background));
 		},
 		methods: {
-			...mapActions('navigation', [
-				'openGame'
-			]),
 			...mapActions('game', [
 				'setBackgroundState'
 			]),
 			/**
-			 * Saves the background state and starts a new game
+			 * Saves the background state
 			 */
-			onOpenGame() {
+			onMainMenuBackgroundDestroyed(backgroundState) {
 				//save the menu background position and image so it can be reused in the game
-				const state = this.$refs.menuBackground.getBackgroundState();
-
-				this.setBackgroundState(state);
-
-				this.openGame();
+				this.setBackgroundState(backgroundState);
 			}
 		}
 	};
@@ -91,12 +76,6 @@
 				display: block;
 				margin: auto;
 				width: 100%;
-			}
-
-			div {
-				padding: 10px;
-				text-align: center;
-				font-size: 24px;
 			}
 		}
 

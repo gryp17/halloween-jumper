@@ -4,35 +4,22 @@
 			v-if="loading"
 			full-screen
 		/>
-		<template v-else>
-			<MainMenu v-if="menuIsOpened" />
-			<Game v-if="gameIsOpened" v />
-		</template>
+		<router-view v-else />
 	</div>
 </template>
 
 <script>
-	import { mapGetters, mapActions } from 'vuex';
+	import { mapActions } from 'vuex';
 	import LoadingIndicator from '@/components/LoadingIndicator';
-	import MainMenu from '@/components/main-menu/MainMenu';
-	import Game from '@/components/Game';
 
 	export default {
 		components: {
-			LoadingIndicator,
-			MainMenu,
-			Game
+			LoadingIndicator
 		},
 		data() {
 			return {
 				loading: true
 			};
-		},
-		computed: {
-			...mapGetters('navigation', [
-				'menuIsOpened',
-				'gameIsOpened'
-			])
 		},
 		async mounted() {
 			await this.preloadGameImages();

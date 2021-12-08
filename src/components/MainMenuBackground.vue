@@ -50,6 +50,9 @@
 		beforeDestroy() {
 			if (menuBackground) {
 				menuBackground.stop();
+
+				//on before destroy send the current background state
+				this.$emit('before-destroy', this.getBackgroundState());
 			}
 		},
 		methods: {

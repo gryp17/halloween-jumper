@@ -54,9 +54,6 @@
 			// this.stopMusic();
 		},
 		methods: {
-			...mapActions('navigation', [
-				'openMainMenu'
-			]),
 			...mapActions('game', [
 				'setBackgroundState'
 			]),
@@ -112,7 +109,10 @@
 			 */
 			onOpenMainMenu() {
 				this.saveBackgroundParams();
-				this.openMainMenu();
+
+				this.$router.push({
+					name: 'initial-screen'
+				});
 			}
 		}
 	};
