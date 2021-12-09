@@ -5,8 +5,9 @@ const getDefaultState = () => {
 	return {
 		images: {},
 		settings: {}, //controls, audio settings etc.
+		selectedBackground: null,
 		backgroundPosition: 0,
-		backgroundImage: null
+		selectedDummy: 'green'
 	};
 };
 
@@ -17,14 +18,20 @@ const getters = {
 };
 
 const mutations = {
+	RESET_STATE(state) {
+		Object.assign(state, getDefaultState());
+	},
 	SET_IMAGES(state, images) {
 		Vue.set(state, 'images', images);
 	},
 	SET_BACKGROUND_POSITION(state, position) {
 		state.backgroundPosition = position;
 	},
-	SET_BACKGROUND_IMAGE(state, image) {
-		state.backgroundImage = image;
+	SET_SELECTED_BACKGROUND(state, background) {
+		state.selectedBackground = background;
+	},
+	SET_SELECTED_DUMMY(state, dummy) {
+		state.selectedDummy = dummy;
 	}
 };
 
@@ -50,18 +57,28 @@ const actions = {
 		});
 	},
 	/**
-	 * Sets the background horizontal position and background image
+	 * Sets the selected background
 	 * @param {Object} context
-	 * @param {Object} state
+	 * @param {String} background
 	 */
-	setBackgroundState(context, { x, selectedBackground }) {
-		if (x) {
-			context.commit('SET_BACKGROUND_POSITION', x);
-		}
-
-		if (selectedBackground) {
-			context.commit('SET_BACKGROUND_IMAGE', selectedBackground);
-		}
+	setSelectedBackground(context, background) {
+		context.commit('SET_SELECTED_BACKGROUND', background);
+	},
+	/**
+	 * Sets the background horizontal (x) position so it can be reused when starting/restarting the game
+	 * @param {Object} context
+	 * @param {Number} position
+	 */
+	setBackgroundPosition(context, position) {
+		context.commit('SET_BACKGROUND_POSITION', position);
+	},
+	/**
+	 * Sets the selected dummy skin
+	 * @param {Object} context
+	 * @param {String} dummy
+	 */
+	setSelectedDummy(context, dummy) {
+		context.commit('SET_SELECTED_DUMMY', dummy);
 	}
 };
 

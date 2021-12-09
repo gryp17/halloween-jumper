@@ -16,7 +16,8 @@ export default {
 			jumpAcceleration: 12,
 			maxJumpHeight: 240,
 			lives: 3,
-			invincibilityDuration: 1500 //miliseconds
+			invincibilityDuration: 1500, //miliseconds
+			selectedSkin: 'green'
 		},
 		background: {
 			speed: 0.6,
@@ -113,6 +114,10 @@ export default {
 				small: 150,
 				default: 240, //affects the maxDistance value
 				big: 320
+			},
+			skin: {
+				green: 'green',
+				yellow: 'yellow'
 			}
 		}
 	},

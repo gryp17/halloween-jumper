@@ -34,30 +34,29 @@
 			...mapState('game', [
 				'images',
 				'backgroundPosition',
-				'backgroundImage'
+				'selectedBackground'
 			])
 		},
 		/**
 		 * Sets the menu background or picks a random one from the list
 		 */
 		created() {
-			this.menuBackground = this.backgroundImage || _.sample(Object.keys(this.images.background));
+			this.menuBackground = this.selectedBackground || _.sample(Object.keys(this.images.background));
 
 			//save the background in the state
-			this.setBackgroundState({
-				selectedBackground: this.menuBackground
-			});
+			this.setSelectedBackground(this.menuBackground);
 		},
 		methods: {
 			...mapActions('game', [
-				'setBackgroundState'
+				'setSelectedBackground',
+				'setBackgroundPosition'
 			]),
 			/**
 			 * Saves the background state
 			 */
 			onMainMenuBackgroundDestroyed(backgroundState) {
-				//save the menu background position and image so it can be reused in the game
-				this.setBackgroundState(backgroundState);
+				//save the menu background position so it can be reused in the game
+				this.setBackgroundPosition(backgroundState.x);
 			}
 		}
 	};

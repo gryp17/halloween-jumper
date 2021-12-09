@@ -54,17 +54,11 @@ export default class Jumper extends GameClient {
 			gameSpeed: 'speedUpInterval',
 			background: 'background.selectedBackground',
 			lives: 'dummy.lives',
-			platformsDistance: 'platform.maxDistance'
+			platformsDistance: 'platform.maxDistance',
+			skin: 'dummy.selectedSkin'
 		};
 
-		const config = super.applySettings(defaultConfig, customSettings, settingsPathMap);
-
-		//pick a random background if the default option was selected
-		if (!customSettings || customSettings.background === 'default') {
-			config.background.selectedBackground = _.sample(config.background.availableBackgrounds);
-		}
-
-		return config;
+		return super.applySettings(defaultConfig, customSettings, settingsPathMap);
 	}
 
 	/**
@@ -104,6 +98,7 @@ export default class Jumper extends GameClient {
 		const dummyConfig = [
 			this.config.dummy.width,
 			this.config.dummy.height,
+			this.config.dummy.selectedSkin,
 			this.config.dummy.lives,
 			this.config.dummy.invincibilityDuration,
 			this.config.dummy.acceleration,

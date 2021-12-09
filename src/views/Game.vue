@@ -33,7 +33,8 @@
 			...mapState('game', [
 				'images',
 				'backgroundPosition',
-				'backgroundImage'
+				'selectedBackground',
+				'selectedDummy'
 			])
 		},
 		/**
@@ -55,7 +56,8 @@
 		},
 		methods: {
 			...mapActions('game', [
-				'setBackgroundState'
+				'setSelectedBackground',
+				'setBackgroundPosition'
 			]),
 			/**
 			 * Starts the game
@@ -69,7 +71,8 @@
 
 				//use the same background image as the main menu background
 				const customSettings = {
-					background: this.backgroundImage
+					background: this.selectedBackground,
+					skin: this.selectedDummy
 				};
 
 				game = new Game(canvasIds, '.canvas-wrapper', this.images, config.game, customSettings, config.defaultControls, {
@@ -93,7 +96,8 @@
 			 * Saves the background position and image so they can be reused in the main menu or when restarting the game
 			 */
 			saveBackgroundParams() {
-				this.setBackgroundState(game.background.state);
+				this.setSelectedBackground(game.background.state.selectedBackground);
+				this.setBackgroundPosition(game.background.state.x);
 			},
 			/**
 			 * Restarts the game with the same settings

@@ -12,6 +12,7 @@ export default class Dummy extends Entity {
 	 * @param {Object} game
 	 * @param {Number} width
 	 * @param {Number} height
+	 * @param {String} skin
 	 * @param {Number} lives
 	 * @param {Number} invincibilityDuration
 	 * @param {Number} acceleration
@@ -21,7 +22,7 @@ export default class Dummy extends Entity {
 	 * @param {Number} jumpAcceleration
 	 * @param {Number} maxJumpHeight
 	 */
-	constructor(game, width, height, lives, invincibilityDuration, acceleration, maxSpeed, fallSpeed, fallSpeedDead, jumpAcceleration, maxJumpHeight) {
+	constructor(game, width, height, skin, lives, invincibilityDuration, acceleration, maxSpeed, fallSpeed, fallSpeedDead, jumpAcceleration, maxJumpHeight) {
 		super(game, game.contexts.game, width, height);
 
 		this.dx = 0;
@@ -51,7 +52,7 @@ export default class Dummy extends Entity {
 		this.angle = 0;
 		this.alpha = 1;
 
-		this.skin = 'green';
+		this.skin = skin;
 		this.facingDirection = 'right';
 
 		this.availableSprites = {

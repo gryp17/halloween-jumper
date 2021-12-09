@@ -1,35 +1,39 @@
 <template>
 	<div class="level-select">
-		<div class="page-title">
+		<MenuPageTitle>
 			Select level
-		</div>
+		</MenuPageTitle>
 
 		<div class="levels-list">
 			<div
 				v-for="(image, name) in backgroundImages"
 				:key="name"
 				:title="ucfirst(name)"
-				:class="['level', { selected: name === selectedLevel }]"
-				@click="selectLevel(name)"
+				:class="['level', { selected: name === selectedBackground }]"
+				@click="setSelectedBackground(name)"
 			>
 				<img :src="image.src" />
 			</div>
 		</div>
 
-		<router-link :to="{ name: 'game' }">
-			Start
-		</router-link>
-
 		<router-link :to="{ name: 'initial-screen' }">
 			Go back
+		</router-link>
+
+		<router-link :to="{ name: 'character-select' }">
+			Next
 		</router-link>
 	</div>
 </template>
 
 <script>
 	import { mapState, mapActions } from 'vuex';
+	import MenuPageTitle from '@/components/MenuPageTitle';
 
 	export default {
+		components: {
+			MenuPageTitle
+		},
 		data() {
 			return {
 				selectedLevel: null
@@ -38,28 +42,18 @@
 		computed: {
 			...mapState('game', [
 				'images',
-				'backgroundImage'
+				'selectedBackground'
 			]),
 			backgroundImages() {
 				return this.images.background;
 			}
 		},
-		created() {
-			this.selectedLevel = this.backgroundImage;
-		},
 		methods: {
 			...mapActions('game', [
-				'setBackgroundState'
+				'setSelectedBackground'
 			]),
 			ucfirst(text) {
 				return _.upperFirst(text);
-			},
-			selectLevel(level) {
-				this.selectedLevel = level;
-
-				this.setBackgroundState({
-					selectedBackground: this.selectedLevel
-				});
 			}
 		}
 	};
@@ -67,12 +61,6 @@
 
 <style scoped lang="scss">
 	.level-select {
-		.page-title {
-			padding: 20px;
-			font-size: 24px;
-			text-align: center;
-		}
-
 		.levels-list {
 			display: flex;
 			flex-wrap: wrap;
