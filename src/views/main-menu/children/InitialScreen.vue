@@ -1,6 +1,6 @@
 <template>
 	<div class="initial-screen">
-		<div @click="$router.push({ name: 'game' })">
+		<div @click="$router.push({ name: 'level-select' })">
 			Play
 		</div>
 		<div @click="$router.push({ name: 'settings' })">

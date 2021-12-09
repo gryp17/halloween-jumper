@@ -55,8 +55,13 @@ const actions = {
 	 * @param {Object} state
 	 */
 	setBackgroundState(context, { x, selectedBackground }) {
-		context.commit('SET_BACKGROUND_POSITION', x);
-		context.commit('SET_BACKGROUND_IMAGE', selectedBackground);
+		if (x) {
+			context.commit('SET_BACKGROUND_POSITION', x);
+		}
+
+		if (selectedBackground) {
+			context.commit('SET_BACKGROUND_IMAGE', selectedBackground);
+		}
 	}
 };
 

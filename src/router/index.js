@@ -4,6 +4,7 @@ import MainMenu from '@/views/main-menu/MainMenu';
 import InitialScreen from '@/views/main-menu/children/InitialScreen';
 import Settings from '@/views/main-menu/children/Settings';
 import About from '@/views/main-menu/children/About';
+import LevelSelect from '@/views/main-menu/children/LevelSelect';
 
 Vue.use(VueRouter);
 
@@ -26,6 +27,11 @@ const routes = [
 				path: 'about',
 				name: 'about',
 				component: About
+			},
+			{
+				path: 'level-select',
+				name: 'level-select',
+				component: LevelSelect
 			}
 		]
 	},

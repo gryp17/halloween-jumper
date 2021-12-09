@@ -42,6 +42,11 @@
 		 */
 		created() {
 			this.menuBackground = this.backgroundImage || _.sample(Object.keys(this.images.background));
+
+			//save the background in the state
+			this.setBackgroundState({
+				selectedBackground: this.menuBackground
+			});
 		},
 		methods: {
 			...mapActions('game', [
