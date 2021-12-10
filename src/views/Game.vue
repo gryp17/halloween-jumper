@@ -70,13 +70,13 @@
 					enemies: 'enemies-canvas'
 				};
 
-				//use the same background image as the main menu background
+				const difficultySettings = config.game.difficulties[this.selectedDifficulty];
+
 				const customSettings = {
+					...difficultySettings,
 					background: this.selectedBackground,
 					skin: this.selectedDummy
 				};
-
-				//TODO: populate the custom settings using the selectedDifficulty
 
 				game = new Game(canvasIds, '.canvas-wrapper', this.images, config.game, customSettings, config.defaultControls, {
 					onGameOver: this.onGameOver,

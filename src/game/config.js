@@ -118,6 +118,23 @@ export default {
 				green: 'green',
 				yellow: 'yellow'
 			}
+		},
+		difficulties: {
+			easy: {
+				gameSpeed: 'slow',
+				lives: 'high',
+				platformsDistance: 'small'
+			},
+			medium: {
+				gameSpeed: 'default',
+				lives: 'default',
+				platformsDistance: 'default'
+			},
+			hard: {
+				gameSpeed: 'fast',
+				lives: 'low',
+				platformsDistance: 'big'
+			}
 		}
 	},
 	menu: {
