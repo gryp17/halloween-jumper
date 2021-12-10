@@ -34,7 +34,8 @@
 				'images',
 				'backgroundPosition',
 				'selectedBackground',
-				'selectedDummy'
+				'selectedDummy',
+				'selectedDifficulty'
 			])
 		},
 		/**
@@ -74,6 +75,8 @@
 					background: this.selectedBackground,
 					skin: this.selectedDummy
 				};
+
+				//TODO: populate the custom settings using the selectedDifficulty
 
 				game = new Game(canvasIds, '.canvas-wrapper', this.images, config.game, customSettings, config.defaultControls, {
 					onGameOver: this.onGameOver,

@@ -99,7 +99,6 @@ export default {
 				fast: 800
 			},
 			background: {
-				default: 'default',
 				forest: 'forest',
 				factory: 'factory',
 				graveyard: 'graveyard',

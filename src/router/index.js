@@ -6,6 +6,7 @@ import Settings from '@/views/main-menu/children/Settings';
 import About from '@/views/main-menu/children/About';
 import LevelSelect from '@/views/main-menu/children/LevelSelect';
 import CharacterSelect from '@/views/main-menu/children/CharacterSelect';
+import DifficultySettings from '@/views/main-menu/children/DifficultySettings';
 
 Vue.use(VueRouter);
 
@@ -38,6 +39,11 @@ const routes = [
 				path: 'character-select',
 				name: 'character-select',
 				component: CharacterSelect
+			},
+			{
+				path: 'difficulty-settings',
+				name: 'difficulty-settings',
+				component: DifficultySettings
 			}
 		]
 	},

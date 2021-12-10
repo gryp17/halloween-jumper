@@ -7,7 +7,8 @@ const getDefaultState = () => {
 		settings: {}, //controls, audio settings etc.
 		selectedBackground: null,
 		backgroundPosition: 0,
-		selectedDummy: 'green'
+		selectedDummy: 'green',
+		selectedDifficulty: 'medium'
 	};
 };
 
@@ -32,6 +33,9 @@ const mutations = {
 	},
 	SET_SELECTED_DUMMY(state, dummy) {
 		state.selectedDummy = dummy;
+	},
+	SET_SELECTED_DIFFICULTY(state, difficulty) {
+		state.selectedDifficulty = difficulty;
 	}
 };
 
@@ -79,6 +83,14 @@ const actions = {
 	 */
 	setSelectedDummy(context, dummy) {
 		context.commit('SET_SELECTED_DUMMY', dummy);
+	},
+	/**
+	 * Sets the selected difficulty
+	 * @param {Object} context
+	 * @param {String} difficulty
+	 */
+	setSelectedDifficulty(context, difficulty) {
+		context.commit('SET_SELECTED_DIFFICULTY', difficulty);
 	}
 };
 

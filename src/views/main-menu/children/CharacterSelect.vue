@@ -21,8 +21,8 @@
 			Go back
 		</router-link>
 
-		<router-link :to="{ name: 'game' }">
-			Start
+		<router-link :to="{ name: 'difficulty-settings' }">
+			Next
 		</router-link>
 	</div>
 </template>
@@ -78,6 +78,7 @@
 				padding: 15px;
 				border: solid 2px transparent;
 				border-radius: 8px;
+				cursor: pointer;
 
 				img {
 					width: 80px;
