@@ -1,41 +1,45 @@
 <template>
 	<div class="character-select">
-		<MenuPageTitle>
-			Select character
-		</MenuPageTitle>
+		<MainMenuSection>
+			<template #title>
+				Select character
+			</template>
+			<template #content>
+				<div class="dummies-list">
+					<div
+						v-for="(dummy, index) in dummyImages"
+						:key="index"
+						:class="['dummy', { selected: dummy.skin === selectedDummy }]"
+						:title="dummy.label"
+						@click="setSelectedDummy(dummy.skin)"
+					>
+						<img class="static-image" :src="dummy.image" />
+						<img class="dummy-gif" :src="dummy.gif" />
+					</div>
+				</div>
+			</template>
+			<template #buttons>
+				<FormButton @click="$router.push({ name: 'level-select' })">
+					Back
+				</FormButton>
 
-		<div class="dummies-list">
-			<div
-				v-for="(dummy, index) in dummyImages"
-				:key="index"
-				:class="['dummy', { selected: dummy.skin === selectedDummy }]"
-				:title="dummy.label"
-				@click="setSelectedDummy(dummy.skin)"
-			>
-				<img class="static-image" :src="dummy.image" />
-				<img class="dummy-gif" :src="dummy.gif" />
-			</div>
-		</div>
-
-		<router-link :to="{ name: 'level-select' }">
-			Go back
-		</router-link>
-
-		<router-link :to="{ name: 'difficulty-settings' }">
-			Next
-		</router-link>
+				<FormButton @click="$router.push({ name: 'difficulty-settings' })">
+					Next
+				</FormButton>
+			</template>
+		</MainMenuSection>
 	</div>
 </template>
 
 <script>
 	import { mapState, mapActions } from 'vuex';
-	import MenuPageTitle from '@/components/MenuPageTitle';
+	import MainMenuSection from '@/components/MainMenuSection';
 	import greenGIF from '@/assets/img/dummy-preview/green.gif';
 	import yellowGIF from '@/assets/img/dummy-preview/yellow.gif';
 
 	export default {
 		components: {
-			MenuPageTitle
+			MainMenuSection
 		},
 		computed: {
 			...mapState('game', [

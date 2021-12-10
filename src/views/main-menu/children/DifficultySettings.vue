@@ -1,53 +1,55 @@
 <template>
 	<div class="difficulty-settings">
-		<MenuPageTitle>
-			Difficulty
-		</MenuPageTitle>
+		<MainMenuSection>
+			<template #title>
+				Difficulty
+			</template>
+			<template #content>
+				<div class="difficulty-picker">
+					<div class="difficulty-items">
+						<div
+							v-for="(summary, difficulty) in difficultyItems"
+							:key="difficulty"
+							:class="['item', { selected: difficulty === selectedDifficulty }]"
+							:title="ucfirst(difficulty)"
+							@click="setSelectedDifficulty(difficulty)"
+						>
+							{{ difficulty }}
+						</div>
+					</div>
 
-		<div class="difficulty-picker">
-			<div class="difficulty-items">
-				<div
-					v-for="(summary, difficulty) in difficultyItems"
-					:key="difficulty"
-					:class="['item', { selected: difficulty === selectedDifficulty }]"
-					:title="ucfirst(difficulty)"
-					@click="setSelectedDifficulty(difficulty)"
-				>
-					{{ difficulty }}
+					<div class="difficulty-summary">
+						<ul>
+							<li
+								v-for="(item, index) in difficultySummary"
+								:key="index"
+							>
+								{{ item }}
+							</li>
+						</ul>
+					</div>
 				</div>
-			</div>
+			</template>
+			<template #buttons>
+				<FormButton @click="$router.push({ name: 'character-select' })">
+					Back
+				</FormButton>
 
-			<div class="difficulty-summary">
-				<ul>
-					<li
-						v-for="(item, index) in difficultySummary"
-						:key="index"
-					>
-						{{ item }}
-					</li>
-				</ul>
-			</div>
-		</div>
-
-		<hr />
-
-		<router-link :to="{ name: 'character-select' }">
-			Go back
-		</router-link>
-
-		<router-link :to="{ name: 'game' }">
-			Start
-		</router-link>
+				<FormButton @click="$router.push({ name: 'game' })">
+					Play
+				</FormButton>
+			</template>
+		</MainMenuSection>
 	</div>
 </template>
 
 <script>
 	import { mapState, mapActions } from 'vuex';
-	import MenuPageTitle from '@/components/MenuPageTitle';
+	import MainMenuSection from '@/components/MainMenuSection';
 
 	export default {
 		components: {
-			MenuPageTitle
+			MainMenuSection
 		},
 		data() {
 			return {
@@ -93,12 +95,12 @@
 	.difficulty-settings {
 		.difficulty-picker {
 			display: flex;
+			margin-bottom: 10px;
 
 			.difficulty-items {
 				display: flex;
 				flex: 1;
 				margin: auto;
-				// max-width: 325px;
 
 				.item {
 					flex: 1;

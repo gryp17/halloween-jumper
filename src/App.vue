@@ -9,8 +9,16 @@
 </template>
 
 <script>
+	import Vue from 'vue';
 	import { mapActions } from 'vuex';
 	import LoadingIndicator from '@/components/LoadingIndicator';
+
+	import FormButton from '@/components/forms/FormButton';
+	import FormSwitch from '@/components/forms/FormSwitch';
+
+	//global components
+	Vue.component('FormButton', FormButton);
+	Vue.component('FormSwitch', FormSwitch);
 
 	export default {
 		components: {
