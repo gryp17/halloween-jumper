@@ -95,19 +95,19 @@
 	.difficulty-settings {
 		.difficulty-picker {
 			display: flex;
-			margin-bottom: 10px;
+			margin-bottom: 15px;
 
 			.difficulty-items {
 				display: flex;
-				flex: 1;
+				flex-direction: column;
 				margin: auto;
 
 				.item {
 					flex: 1;
 					border-radius: 3px;
-					padding: 5px 10px;
-					margin: 0px 5px;
-					font-size: 18px;
+					padding: 10px 22px;
+					margin: 2px 5px;
+					font-size: 24px;
 					text-align: center;
 					user-select: none;
 					text-transform: capitalize;
@@ -131,7 +131,8 @@
 			}
 
 			.difficulty-summary {
-				flex: 1;
+				padding-top: 30px;
+				width: 60%;
 
 				li {
 					margin-bottom: 5px;
@@ -142,6 +143,26 @@
 		@media (max-width: $medium-small) {
 			.difficulty-picker {
 				flex-direction: column;
+
+				.difficulty-items {
+					flex-direction: row;
+				}
+
+				.difficulty-summary {
+					padding-top: 0px;
+					width: 100%;
+				}
+			}
+		}
+
+		@media (max-width: $extra-small) {
+			.difficulty-picker {
+				.difficulty-items {
+					.item {
+						padding: 10px 18px;
+						font-size: 20px;
+					}
+				}
 			}
 		}
 	}
