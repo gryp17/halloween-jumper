@@ -1,10 +1,16 @@
 import Vue from 'vue';
+import Storage from '@/services/storage';
 import Game from '@/game/jumper/entry-points/game';
+import config from '@/game/config';
 
 const getDefaultState = () => {
 	return {
 		images: {},
-		settings: {}, //controls, audio settings etc.
+		settings: {
+			controls: {},
+			sound: true,
+			music: true
+		},
 		selectedBackground: null,
 		backgroundPosition: 0,
 		selectedDummy: 'green',
@@ -36,6 +42,9 @@ const mutations = {
 	},
 	SET_SELECTED_DIFFICULTY(state, difficulty) {
 		state.selectedDifficulty = difficulty;
+	},
+	SET_SETTINGS(state, settings) {
+		Vue.set(state, 'settings', settings);
 	}
 };
 
@@ -91,6 +100,37 @@ const actions = {
 	 */
 	setSelectedDifficulty(context, difficulty) {
 		context.commit('SET_SELECTED_DIFFICULTY', difficulty);
+	},
+	/**
+	 * Fetches the settings
+	 * @param {Object} context
+	 * @returns {Object}
+	 */
+	getSettings(context) {
+		let settings = Storage.getSettings();
+
+		//if no settings are present in the storage use the default settings
+		if (!settings) {
+			const defaultState = getDefaultState();
+
+			settings = {
+				...defaultState.settings,
+				controls: config.defaultControls
+			};
+		}
+
+		context.dispatch('setSettings', settings);
+
+		return settings;
+	},
+	/**
+	 * Sets the settings in the local storage and the vuex store
+	 * @param {Object} context
+	 * @param {Object} settings
+	 */
+	setSettings(context, settings) {
+		Storage.setSettings(settings);
+		context.commit('SET_SETTINGS', settings);
 	}
 };
 

@@ -15,10 +15,17 @@
 
 	import FormButton from '@/components/forms/FormButton';
 	import FormSwitch from '@/components/forms/FormSwitch';
+	import FormInput from '@/components/forms/FormInput';
+
+	import keyCodesMap from '@/filters/keyCodesMap';
 
 	//global components
 	Vue.component('FormButton', FormButton);
 	Vue.component('FormSwitch', FormSwitch);
+	Vue.component('FormInput', FormInput);
+
+	//global filters
+	Vue.filter('keyCodesMap', keyCodesMap);
 
 	export default {
 		components: {
@@ -30,18 +37,24 @@
 			};
 		},
 		async mounted() {
-			await this.preloadGameImages();
+			await Promise.all([
+				this.preloadGameImages(),
+				this.getSettings()
+			]);
 			this.loading = false;
 		},
 		methods: {
 			...mapActions('game', [
-				'preloadGameImages'
+				'preloadGameImages',
+				'getSettings'
 			])
 		}
 	};
 </script>
 
 <style lang="scss">
+	@import '~@/assets/css/_vue-tabs';
+
 	*,
 	:after,
 	:before {

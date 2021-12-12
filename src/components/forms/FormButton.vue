@@ -67,8 +67,8 @@
 		}
 
 		&.outline {
-			background-color: $white;
-			color: $purple;
+			background-color: transparent;
+			color: $orange;
 			border: solid 1px $orange;
 
 			&:hover, &:active, &:focus, &.active {

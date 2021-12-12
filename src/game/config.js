@@ -222,5 +222,8 @@ export default {
 		104: 'numpad 8',
 		105: 'numpad 9',
 		108: 'numpad period'
+	},
+	storage: {
+		settingsKey: 'halloween-jumper-settings'
 	}
 };

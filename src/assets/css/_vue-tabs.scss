@@ -1,0 +1,90 @@
+.tabs-component {
+	$border-color: $orange;
+	$body-color: transparent;
+	$tabs-border: solid 3px $border-color;
+
+	border-left: $tabs-border;
+	border-right: $tabs-border;
+	border-bottom: $tabs-border;
+
+	.tabs-component-tabs {
+		margin: 0;
+		padding: 0px;
+		border: 0;
+		align-items: stretch;
+		display: flex;
+		justify-content: flex-start;
+	}
+
+	.tabs-component-tab {
+		flex: 1;
+		border: none;
+		border-top: $tabs-border;
+		background-color: $border-color;
+		color: rgba($text-color, 0.7);
+		font-size: 14px;
+		font-weight: 600;
+		list-style: none;
+		transition: transform 0.3s ease;
+
+		&:hover {
+			color: $text-color;
+		}
+
+		&.is-active {
+			color: $text-color;
+			background-color: $body-color;
+			z-index: 2;
+		}
+
+		&.is-disabled * {
+			color: darken($text-color, 50%);;
+			cursor: not-allowed !important;
+		}
+
+		.tabs-component-tab-a {
+			align-items: center;
+			justify-content: center;
+			color: inherit;
+			display: flex;
+			padding: 10px 15px;
+			text-decoration: none;
+		}
+	}
+
+	.tabs-component-panels {
+		border-top-left-radius: 0;
+		background-color: $body-color;
+		padding: 20px;
+	}
+
+	//light mode
+	&.light {
+		$border-color: $gray-lightest;
+		$body-color: $white;
+		$tabs-border: solid 3px $border-color;
+
+		border-left: $tabs-border;
+		border-right: $tabs-border;
+		border-bottom: $tabs-border;
+
+		.tabs-component-tab {
+			border-top: $tabs-border;
+			background-color: $border-color;
+			color: lighten($text-color-dark, 15%);
+
+			&.is-active {
+				color: $text-color-dark;
+				background-color: $body-color;
+			}
+
+			&:hover {
+				color: $text-color-dark;
+			}
+		}
+
+		.tabs-component-panels {
+			background-color: $body-color;
+		}
+	}
+}

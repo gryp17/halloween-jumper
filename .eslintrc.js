@@ -58,6 +58,7 @@ module.exports = {
 		'class-methods-use-this': 0,
 		'no-useless-constructor': 0,
 		'no-lonely-if': 0,
+		'import/no-named-as-default-member': 0,
 		indent: ['error', 'tab', { SwitchCase: 1 }],
 		'vue/html-indent': ['error', 'tab'],
 		/* disable this rule since it breaks babel-eslint for some reason
