@@ -18,7 +18,10 @@
 				</div>
 			</template>
 			<template #buttons>
-				<FormButton @click="$router.push({ name: 'initial-screen' })">
+				<FormButton
+					neutral
+					@click="$router.push({ name: 'initial-screen' })"
+				>
 					Back
 				</FormButton>
 

@@ -31,7 +31,10 @@
 				</div>
 			</template>
 			<template #buttons>
-				<FormButton @click="$router.push({ name: 'character-select' })">
+				<FormButton
+					neutral
+					@click="$router.push({ name: 'character-select' })"
+				>
 					Back
 				</FormButton>
 

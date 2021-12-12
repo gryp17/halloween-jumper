@@ -19,7 +19,10 @@
 				</div>
 			</template>
 			<template #buttons>
-				<FormButton @click="$router.push({ name: 'level-select' })">
+				<FormButton
+					neutral
+					@click="$router.push({ name: 'level-select' })"
+				>
 					Back
 				</FormButton>
 
