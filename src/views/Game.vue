@@ -32,6 +32,7 @@
 		computed: {
 			...mapState('game', [
 				'images',
+				'settings',
 				'backgroundPosition',
 				'selectedBackground',
 				'selectedDummy',
@@ -78,7 +79,7 @@
 					skin: this.selectedDummy
 				};
 
-				game = new Game(canvasIds, '.canvas-wrapper', this.images, config.game, customSettings, config.defaultControls, {
+				game = new Game(canvasIds, '.canvas-wrapper', this.images, config.game, customSettings, this.settings.controls, {
 					onGameOver: this.onGameOver,
 					playMusic() {},
 					playTrack: (track, volume) => {}

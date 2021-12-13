@@ -158,6 +158,8 @@
 					controls: this.inputs,
 					...this.audio
 				});
+
+				this.$router.push({ name: 'initial-screen' });
 			},
 			/**
 			 * Resets the settings to their default values
