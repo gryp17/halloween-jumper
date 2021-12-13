@@ -7,6 +7,7 @@ import About from '@/views/main-menu/children/About';
 import LevelSelect from '@/views/main-menu/children/LevelSelect';
 import CharacterSelect from '@/views/main-menu/children/CharacterSelect';
 import DifficultySettings from '@/views/main-menu/children/DifficultySettings';
+import Intro from '@/views/main-menu/children/Intro';
 
 Vue.use(VueRouter);
 
@@ -17,6 +18,11 @@ const routes = [
 		children: [
 			{
 				path: '/',
+				name: 'intro',
+				component: Intro
+			},
+			{
+				path: '/initial-screen',
 				name: 'initial-screen',
 				component: InitialScreen
 			},

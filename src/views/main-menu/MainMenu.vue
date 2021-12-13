@@ -76,6 +76,20 @@
 			border-radius: 3px;
 			z-index: 1;
 
+			&.fade-out {
+				opacity: 0;
+				transform: scale(0.4);
+			}
+
+			&.fade-in {
+				transition:
+					transform 600ms ease-out,
+					opacity 1300ms ease-out,
+					padding 300ms ease-out;
+				opacity: 1;
+				transform: scale(1);
+			}
+
 			.logo {
 				display: block;
 				margin: auto;
