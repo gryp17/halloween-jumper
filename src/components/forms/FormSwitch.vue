@@ -42,8 +42,9 @@
 				margin-right: 5px;
 				height: 17px;
 				width: 30px;
+				background-color: $gray;
 				border-radius: 10px;
-				border: solid 1px $gray-dark;
+				border: solid 1px $gray-light;
 				transition: 500ms ease;
 
 				.ball {
@@ -53,7 +54,7 @@
 					width: 11px;
 					height: 11px;
 					border-radius: 100%;
-					background-color: $gray-dark;
+					background-color: $gray-light;
 					transition: 500ms ease;
 				}
 			}
