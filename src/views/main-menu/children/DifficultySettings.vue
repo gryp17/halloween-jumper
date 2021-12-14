@@ -38,7 +38,7 @@
 					Back
 				</FormButton>
 
-				<FormButton @click="$router.push({ name: 'game' })">
+				<FormButton @click="onPlay">
 					Play
 				</FormButton>
 			</template>
@@ -84,11 +84,21 @@
 			}
 		},
 		methods: {
+			...mapActions('ui', [
+				'hideMainMenu'
+			]),
 			...mapActions('game', [
 				'setSelectedDifficulty'
 			]),
 			ucfirst(text) {
 				return _.upperFirst(text);
+			},
+			/**
+			 * Hides the main menu (using a fancy animation) before opening the game
+			 */
+			async onPlay() {
+				await this.hideMainMenu();
+				this.$router.push({ name: 'game' });
 			}
 		}
 	};

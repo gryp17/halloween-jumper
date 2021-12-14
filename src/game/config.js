@@ -223,6 +223,16 @@ export default {
 		105: 'numpad 9',
 		108: 'numpad period'
 	},
+	animations: {
+		duration: 1000,
+		common: 'animate__animated',
+		show: [
+			'animate__bounceInDown',
+			'animate__bounceInLeft',
+			'animate__jackInTheBox'
+		],
+		hide: 'animate__backOutUp'
+	},
 	storage: {
 		settingsKey: 'halloween-jumper-settings'
 	}

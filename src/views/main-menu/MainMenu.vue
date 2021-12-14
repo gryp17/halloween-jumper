@@ -8,7 +8,7 @@
 			@before-destroy="onMainMenuBackgroundDestroyed"
 		/>
 
-		<div :class="['inner-wrapper', 'animate__animated', animation]">
+		<div :class="['inner-wrapper', mainMenuClass]">
 			<img class="logo" src="@/assets/img/logo.png"/>
 
 			<router-view></router-view>
@@ -27,16 +27,13 @@
 		},
 		data() {
 			return {
-				menuBackground: null,
-				availableAnimations: [
-					'animate__bounceInDown',
-					'animate__bounceInLeft',
-					'animate__jackInTheBox'
-				],
-				animation: null
+				menuBackground: null
 			};
 		},
 		computed: {
+			...mapState('ui', [
+				'mainMenuClass'
+			]),
 			...mapState('game', [
 				'images',
 				'backgroundPosition',
@@ -46,16 +43,19 @@
 		/**
 		 * Sets the menu background or picks a random one from the list
 		 */
-		created() {
+		async created() {
 			this.menuBackground = this.selectedBackground || _.sample(Object.keys(this.images.background));
 
-			//pick a random main menu animation
-			this.animation = _.sample(this.availableAnimations);
+			//show the main menu using a random animation
+			this.showMainMenu();
 
 			//save the background in the state
 			this.setSelectedBackground(this.menuBackground);
 		},
 		methods: {
+			...mapActions('ui', [
+				'showMainMenu'
+			]),
 			...mapActions('game', [
 				'setSelectedBackground',
 				'setBackgroundPosition'
