@@ -1,5 +1,5 @@
 <template>
-	<div class="intro" ref="intro">
+	<div class="intro">
 		<FormButton
 			class="play-btn"
 			@click="onPlay"
@@ -13,21 +13,6 @@
 	import { mapActions } from 'vuex';
 
 	export default {
-		computed: {
-			wrapper() {
-				return $(this.$refs.intro).parent();
-			}
-		},
-		/**
-		 * Triggers the intro animation
-		 */
-		mounted() {
-			this.wrapper.addClass('fade-out');
-
-			setTimeout(() => {
-				this.wrapper.addClass('fade-in');
-			}, 50);
-		},
 		methods: {
 			...mapActions('audio', [
 				'playMusic',

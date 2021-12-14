@@ -8,7 +8,7 @@
 			@before-destroy="onMainMenuBackgroundDestroyed"
 		/>
 
-		<div class="inner-wrapper">
+		<div :class="['inner-wrapper', 'animate__animated', animation]">
 			<img class="logo" src="@/assets/img/logo.png"/>
 
 			<router-view></router-view>
@@ -27,7 +27,13 @@
 		},
 		data() {
 			return {
-				menuBackground: null
+				menuBackground: null,
+				availableAnimations: [
+					'animate__bounceInDown',
+					'animate__bounceInLeft',
+					'animate__jackInTheBox'
+				],
+				animation: null
 			};
 		},
 		computed: {
@@ -42,6 +48,9 @@
 		 */
 		created() {
 			this.menuBackground = this.selectedBackground || _.sample(Object.keys(this.images.background));
+
+			//pick a random main menu animation
+			this.animation = _.sample(this.availableAnimations);
 
 			//save the background in the state
 			this.setSelectedBackground(this.menuBackground);
@@ -75,20 +84,6 @@
 			background-color: $transparent-background;
 			border-radius: 3px;
 			z-index: 1;
-
-			&.fade-out {
-				opacity: 0;
-				transform: scale(0.4);
-			}
-
-			&.fade-in {
-				transition:
-					transform 600ms ease-out,
-					opacity 1300ms ease-out,
-					padding 300ms ease-out;
-				opacity: 1;
-				transform: scale(1);
-			}
 
 			.logo {
 				display: block;
