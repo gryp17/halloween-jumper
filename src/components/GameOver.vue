@@ -1,6 +1,6 @@
 <template>
 	<div class="game-over">
-		<div class="inner-wrapper">
+		<div class="inner-wrapper animate__animated animate__bounceInDown">
 			<img class="game-over-image" src="@/assets/img/game-over.png" />
 			<div @click="$emit('restart')">
 				Restart
