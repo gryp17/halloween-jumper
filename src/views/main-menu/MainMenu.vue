@@ -8,7 +8,7 @@
 			@before-destroy="onMainMenuBackgroundDestroyed"
 		/>
 
-		<div :class="['inner-wrapper', mainMenuClass]">
+		<div :class="['inner-wrapper', mainMenuAnimationClass]">
 			<img class="logo" src="@/assets/img/logo.png"/>
 
 			<router-view></router-view>
@@ -32,7 +32,7 @@
 		},
 		computed: {
 			...mapState('ui', [
-				'mainMenuClass'
+				'mainMenuAnimationClass'
 			]),
 			...mapState('game', [
 				'images',

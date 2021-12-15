@@ -24,11 +24,6 @@
 		components: {
 			GameOver
 		},
-		data() {
-			return {
-				gameOver: false
-			};
-		},
 		computed: {
 			...mapState('game', [
 				'images',
@@ -37,6 +32,9 @@
 				'selectedBackground',
 				'selectedDummy',
 				'selectedDifficulty'
+			]),
+			...mapState('ui', [
+				'gameOver'
 			])
 		},
 		/**
@@ -61,6 +59,10 @@
 				'setSelectedBackground',
 				'setBackgroundPosition'
 			]),
+			...mapActions('ui', [
+				'showGameOver',
+				'hideGameOver'
+			]),
 			/**
 			 * Starts the game
 			 */
@@ -80,7 +82,7 @@
 				};
 
 				game = new Game(canvasIds, '.canvas-wrapper', this.images, config.game, customSettings, this.settings.controls, {
-					onGameOver: this.onGameOver,
+					onGameOver: this.showGameOver,
 					playMusic() {},
 					playTrack: (track, volume) => {}
 				});
@@ -89,12 +91,6 @@
 
 				//start the game from the same background position as the main menu background
 				game.background.x = this.backgroundPosition;
-			},
-			/**
-			 * Raises the gameOver flag and displays the game over screen
-			 */
-			onGameOver() {
-				this.gameOver = true;
 			},
 			/**
 			 * Saves the background position and image so they can be reused in the main menu or when restarting the game
@@ -106,16 +102,17 @@
 			/**
 			 * Restarts the game with the same settings
 			 */
-			onRestart() {
+			async onRestart() {
+				await this.hideGameOver();
 				this.saveBackgroundParams();
-				this.gameOver = false;
 				game.stop();
 				this.initGame();
 			},
 			/**
 			 * Opens the main menu screen
 			 */
-			onOpenMainMenu() {
+			async onOpenMainMenu() {
+				await this.hideGameOver();
 				this.saveBackgroundParams();
 
 				this.$router.push({

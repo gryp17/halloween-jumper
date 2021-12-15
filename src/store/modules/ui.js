@@ -3,13 +3,20 @@ import config from '@/game/config';
 const getDefaultState = () => {
 	return {
 		animations: config.animations,
-		mainMenuClass: ''
+		mainMenuAnimationClass: '',
+		gameOverAnimationClass: '',
+		gameOver: false
 	};
 };
 
 const state = getDefaultState();
 
 const getters = {
+	/**
+	 * Returns the default show animation class
+	 * @param {Object} state
+	 * @returns {String}
+	 */
 	showAnimation(state) {
 		const animations = state.animations;
 
@@ -20,6 +27,11 @@ const getters = {
 
 		return className;
 	},
+	/**
+	 * Returns the default hide animation class
+	 * @param {Object} state
+	 * @returns {String}
+	 */
 	hideAnimation(state) {
 		const animations = state.animations;
 
@@ -30,6 +42,11 @@ const getters = {
 
 		return className;
 	},
+	/**
+	 * Returns a random show animation class
+	 * @param {Object} state
+	 * @returns {String}
+	 */
 	randomShowAnimation(state) {
 		const animations = state.animations;
 
@@ -47,8 +64,14 @@ const mutations = {
 	RESET_STATE(state) {
 		Object.assign(state, getDefaultState());
 	},
-	SET_MAIN_MENU_CLASS(state, animation) {
-		state.mainMenuClass = animation;
+	SET_MAIN_MENU_ANIMATION_CLASS(state, animation) {
+		state.mainMenuAnimationClass = animation;
+	},
+	SET_GAME_OVER_ANIMATION_CLASS(state, animation) {
+		state.gameOverAnimationClass = animation;
+	},
+	SET_GAME_OVER(state, gameOver) {
+		state.gameOver = gameOver;
 	}
 };
 
@@ -67,7 +90,7 @@ const actions = {
 	 */
 	showMainMenu(context) {
 		return new Promise((resolve) => {
-			context.commit('SET_MAIN_MENU_CLASS', context.getters.randomShowAnimation);
+			context.commit('SET_MAIN_MENU_ANIMATION_CLASS', context.getters.randomShowAnimation);
 			setTimeout(resolve, config.animations.duration);
 		});
 	},
@@ -78,8 +101,35 @@ const actions = {
 	 */
 	hideMainMenu(context) {
 		return new Promise((resolve) => {
-			context.commit('SET_MAIN_MENU_CLASS', context.getters.hideAnimation);
+			context.commit('SET_MAIN_MENU_ANIMATION_CLASS', context.getters.hideAnimation);
 			setTimeout(resolve, config.animations.duration);
+		});
+	},
+	/**
+	 * Shows the game over panel using an animation
+	 * @param {Object} context
+	 * @returns {Promise}
+	 */
+	showGameOver(context) {
+		context.commit('SET_GAME_OVER', true);
+
+		return new Promise((resolve) => {
+			context.commit('SET_GAME_OVER_ANIMATION_CLASS', context.getters.showAnimation);
+			setTimeout(resolve, config.animations.duration);
+		});
+	},
+	/**
+	 * Hides the game over panel using an animation
+	 * @param {Object} context
+	 * @returns {Promise}
+	 */
+	hideGameOver(context) {
+		return new Promise((resolve) => {
+			context.commit('SET_GAME_OVER_ANIMATION_CLASS', context.getters.hideAnimation);
+			setTimeout(() => {
+				context.commit('SET_GAME_OVER', false);
+				resolve();
+			}, config.animations.duration);
 		});
 	}
 };

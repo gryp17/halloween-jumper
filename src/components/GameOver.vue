@@ -1,6 +1,6 @@
 <template>
 	<div class="game-over">
-		<div :class="['inner-wrapper', wrapperClass]">
+		<div :class="['inner-wrapper', gameOverAnimationClass]">
 			<img class="game-over-image" src="@/assets/img/game-over.png" />
 			<div @click="onRestart">
 				Restart
@@ -13,44 +13,26 @@
 </template>
 
 <script>
-	import { mapState, mapGetters } from 'vuex';
+	import { mapState } from 'vuex';
 
 	export default {
-		data() {
-			return {
-				wrapperClass: ''
-			};
-		},
 		computed: {
 			...mapState('ui', [
-				'animations'
-			]),
-			...mapGetters('ui', [
-				'showAnimation',
-				'hideAnimation'
+				'gameOverAnimationClass'
 			])
 		},
-		created() {
-			this.wrapperClass = this.showAnimation;
-		},
 		methods: {
-			async onRestart() {
-				await this.hidePanel();
+			/**
+			 * Emits the restart event
+			 */
+			onRestart() {
 				this.$emit('restart');
 			},
-			async onMainMenu() {
-				await this.hidePanel();
-				this.$emit('main-menu');
-			},
 			/**
-			 * Applies the hide animation to the game over panel
-			 * @returns {Promise}
+			 * Emits the main menu event
 			 */
-			hidePanel() {
-				return new Promise((resolve) => {
-					this.wrapperClass = this.hideAnimation;
-					setTimeout(resolve, this.animations.duration);
-				});
+			onMainMenu() {
+				this.$emit('main-menu');
 			}
 		}
 	};
