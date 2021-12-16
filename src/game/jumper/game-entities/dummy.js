@@ -100,6 +100,25 @@ export default class Dummy extends Entity {
 		this.dead = true;
 		this.dx = 0;
 		this.dy = this.fallSpeedDead;
+
+		this.game.playDeadSound();
+	}
+
+	/**
+	 * Makes the dummy die when it touches the ground
+	 */
+	fellDown() {
+		if (!this.dead) {
+			this.game.playDeadSound();
+		}
+
+		this.dead = true;
+
+		const remainingLives = this.liveLost();
+
+		if (remainingLives > 0) {
+			this.reset(true);
+		}
 	}
 
 	/**
@@ -108,8 +127,6 @@ export default class Dummy extends Entity {
 	 */
 	liveLost() {
 		this.lives--;
-
-		this.game.triggerEvent('dead');
 
 		if (this.lives === 0) {
 			this.game.gameOver();
@@ -222,7 +239,7 @@ export default class Dummy extends Entity {
 		this.jumpingStartingPoint = this.y;
 		this.dy = this.jumpAcceleration;
 
-		this.game.triggerEvent('jump');
+		this.game.playJumpSound();
 	}
 
 	/**
@@ -251,8 +268,7 @@ export default class Dummy extends Entity {
 	 */
 	flip() {
 		this.flipping = true;
-
-		this.game.triggerEvent('flip');
+		this.game.playFlipSound();
 	}
 
 	/**
@@ -345,10 +361,8 @@ export default class Dummy extends Entity {
 
 		//bottom end of screen
 		if (this.top >= this.canvas.height) {
-			const remainingLives = this.liveLost();
-
-			if (remainingLives > 0) {
-				this.reset(true);
+			if (!this.game.gameIsOver) {
+				this.fellDown();
 			}
 		}
 

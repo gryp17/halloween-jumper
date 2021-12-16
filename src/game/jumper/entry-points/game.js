@@ -216,6 +216,8 @@ export default class Jumper extends GameClient {
 	 * Triggers the game over event and raises the game over flag
 	 */
 	gameOver() {
+		this.playGameOverSound();
+
 		this.cleanUp();
 		super.gameOver();
 	}
@@ -225,11 +227,6 @@ export default class Jumper extends GameClient {
 	 */
 	speedUp() {
 		this.gameSpeed = parseFloat((this.gameSpeed + this.speedIncrease).toFixed(1));
-	}
-
-	triggerEvent(event) {
-		//TODO: get rid of this function
-		console.log('trigger event', event);
 	}
 
 	/**
@@ -251,6 +248,13 @@ export default class Jumper extends GameClient {
 	 */
 	playDeadSound() {
 		this.playTrack('dead');
+	}
+
+	/**
+	 * Plays the game over sound track
+	 */
+	playGameOverSound() {
+		this.playTrack('gameOver');
 	}
 
 	/**

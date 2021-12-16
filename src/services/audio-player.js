@@ -5,6 +5,7 @@ import ghost from '@/assets/audio/ghost.mp3';
 import jump from '@/assets/audio/jump.mp3';
 import flip from '@/assets/audio/flip.mp3';
 import dead from '@/assets/audio/dead.mp3';
+import gameOver from '@/assets/audio/game-over.mp3';
 
 import mop from '@/assets/audio/music/mop.mp3';
 import hysteria from '@/assets/audio/music/hysteria.mp3';
@@ -20,7 +21,8 @@ const tracks = {
 	ghost,
 	jump,
 	flip,
-	dead
+	dead,
+	gameOver
 };
 
 //background music tracks

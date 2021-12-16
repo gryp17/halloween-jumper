@@ -78,25 +78,6 @@ export default class GameClient {
 	}
 
 	/**
-	 * Tries to play the music track
-	 * This helper function is called after an user input in order to avoid the firefox autoplay limitations
-	 */
-	tryToPlayMusic() {
-		if (this.musicIsPlaying) {
-			return;
-		}
-
-		const anyKeyPressed = Object.values(this.inputs).find((status) => {
-			return status === true;
-		});
-
-		if (anyKeyPressed) {
-			this.musicIsPlaying = true;
-			this.playMusic();
-		}
-	}
-
-	/**
 	 * Initializes the game entities and starts the game
 	 */
 	start() {
@@ -155,10 +136,6 @@ export default class GameClient {
 	 */
 	gameLoop() {
 		this.inputs = this.getInputs();
-
-		//when any key has been pressed try to play the music tracks
-		//this is a firefox autoplay hack
-		this.tryToPlayMusic();
 
 		//clear the whole canvas before drawing anything
 		_.forOwn(this.contexts, (value, key) => {

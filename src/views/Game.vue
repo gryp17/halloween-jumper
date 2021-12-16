@@ -50,9 +50,6 @@
 			if (game) {
 				game.stop();
 			}
-
-			//TODO: implement the sound/music
-			// this.stopMusic();
 		},
 		methods: {
 			...mapActions('game', [
@@ -62,6 +59,11 @@
 			...mapActions('ui', [
 				'showGameOver',
 				'hideGameOver'
+			]),
+			...mapActions('audio', [
+				'playTrack',
+				'playMusic',
+				'stopMusic'
 			]),
 			/**
 			 * Starts the game
@@ -83,8 +85,13 @@
 
 				game = new Game(canvasIds, '.canvas-wrapper', this.images, config.game, customSettings, this.settings.controls, {
 					onGameOver: this.showGameOver,
-					playMusic() {},
-					playTrack: (track, volume) => {}
+					playMusic: this.playMusic,
+					playTrack: (track, volume) => {
+						this.playTrack({
+							track,
+							volume
+						});
+					}
 				});
 
 				game.start();
