@@ -128,6 +128,9 @@ export default class Dummy extends Entity {
 	liveLost() {
 		this.lives--;
 
+		//update the HUD when the dummy loses a life
+		this.game.updateHUD();
+
 		if (this.lives === 0) {
 			this.game.gameOver();
 		}

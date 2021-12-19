@@ -1,5 +1,22 @@
 import AudioPlayer from '@/services/audio-player';
 
+const getDefaultState = () => {
+	return {
+		musicIsPlaying: false
+	};
+};
+
+const state = getDefaultState();
+
+const mutations = {
+	RESET_STATE(state) {
+		Object.assign(state, getDefaultState());
+	},
+	SET_MUSIC_IS_PLAYING(state, musicIsPlaying) {
+		state.musicIsPlaying = musicIsPlaying;
+	}
+};
+
 const actions = {
 	/**
 	 * Plays an audio track once
@@ -8,9 +25,9 @@ const actions = {
 	 * @returns {Promise}
 	 */
 	playTrack(context, { track, volume }) {
-		const soundEnabled = context.rootState.game.settings.sound;
+		const soundIsEnabled = context.rootState.settings.sound;
 
-		if (soundEnabled) {
+		if (soundIsEnabled) {
 			return AudioPlayer.throttledPlayTrack(track, volume);
 		}
 	},
@@ -19,11 +36,13 @@ const actions = {
 	 * @param {Object} context
 	 * @param {Float} volume
 	 */
-	playMusic(context, volume = 0.5) {
-		const musicEnabled = context.rootState.game.settings.music;
+	playMusic(context, volume = 0.2) {
+		const musicIsEnabled = context.rootState.settings.music;
+		const musicIsPlaying = context.state.musicIsPlaying;
 
-		if (musicEnabled) {
+		if (musicIsEnabled && !musicIsPlaying) {
 			AudioPlayer.playMusic(volume);
+			context.commit('SET_MUSIC_IS_PLAYING', true);
 		}
 	},
 	/**
@@ -32,10 +51,13 @@ const actions = {
 	 */
 	stopMusic(context) {
 		AudioPlayer.stopMusic();
+		context.commit('SET_MUSIC_IS_PLAYING', false);
 	}
 };
 
 export default {
 	namespaced: true,
+	state,
+	mutations,
 	actions
 };

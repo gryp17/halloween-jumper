@@ -102,8 +102,10 @@
 			};
 		},
 		computed: {
-			...mapState('game', [
-				'settings'
+			...mapState('settings', [
+				'controls',
+				'sound',
+				'music'
 			]),
 			/**
 			 * Contains the valid input key codes
@@ -117,13 +119,13 @@
 		 * Populates the form with the data from the vuex store
 		 */
 		created() {
-			this.inputs = _.cloneDeep(this.settings.controls);
-			this.audio.sound = this.settings.sound;
-			this.audio.music = this.settings.music;
+			this.inputs = _.cloneDeep(this.controls);
+			this.audio.sound = this.sound;
+			this.audio.music = this.music;
 		},
 		methods: {
-			...mapActions('game', [
-				'setSettings'
+			...mapActions('settings', [
+				'updateSettings'
 			]),
 			/**
 			 * Called when the control input value changes
@@ -154,7 +156,7 @@
 			 * Saves the settings
 			 */
 			submit() {
-				this.setSettings({
+				this.updateSettings({
 					controls: this.inputs,
 					...this.audio
 				});

@@ -8,6 +8,13 @@
 			@before-destroy="onMainMenuBackgroundDestroyed"
 		/>
 
+		<GameHUD
+			:sound="sound"
+			:music="music"
+			@set-sound="updateSettings({ 'sound': $event })"
+			@set-music="updateSettings({ 'music': $event })"
+		/>
+
 		<div :class="['inner-wrapper', mainMenuAnimationClass]">
 			<img class="logo" src="@/assets/img/logo.png"/>
 
@@ -20,10 +27,12 @@
 	import { mapState, mapActions } from 'vuex';
 
 	import MainMenuBackground from '@/components/MainMenuBackground';
+	import GameHUD from '@/components/game-hud/GameHUD';
 
 	export default {
 		components: {
-			MainMenuBackground
+			MainMenuBackground,
+			GameHUD
 		},
 		data() {
 			return {
@@ -38,6 +47,10 @@
 				'images',
 				'backgroundPosition',
 				'selectedBackground'
+			]),
+			...mapState('settings', [
+				'sound',
+				'music'
 			])
 		},
 		/**
@@ -59,6 +72,9 @@
 			...mapActions('game', [
 				'setSelectedBackground',
 				'setBackgroundPosition'
+			]),
+			...mapActions('settings', [
+				'updateSettings'
 			]),
 			/**
 			 * Saves the background state

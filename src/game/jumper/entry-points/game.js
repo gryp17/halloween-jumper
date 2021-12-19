@@ -191,6 +191,8 @@ export default class Jumper extends GameClient {
 			this.speedUp();
 		}, this.speedUpInterval);
 
+		this.updateHUD();
+
 		super.start();
 	}
 
@@ -220,6 +222,13 @@ export default class Jumper extends GameClient {
 
 		this.cleanUp();
 		super.gameOver();
+	}
+
+	/**
+	 * Emits the update hud event with the hud data
+	 */
+	updateHUD() {
+		this.onUpdateHUD(this.hudData);
 	}
 
 	/**

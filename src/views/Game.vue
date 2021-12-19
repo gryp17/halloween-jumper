@@ -2,6 +2,15 @@
 	<div class="game">
 		<div class="canvas-wrapper"></div>
 
+		<GameHUD
+			:lives="lives"
+			:dummy-image="hudDummyImage"
+			:sound="sound"
+			:music="music"
+			@set-sound="updateSettings({ 'sound': $event })"
+			@set-music="updateSettings({ 'music': $event })"
+		/>
+
 		<GameOver
 			v-if="gameOver"
 			@restart="onRestart"
@@ -16,26 +25,48 @@
 	import Game from '@/game/jumper/entry-points/game';
 	import config from '@/game/config';
 
+	import GameHUD from '@/components/game-hud/GameHUD';
 	import GameOver from '@/components/GameOver';
 
 	let game;
 
 	export default {
 		components: {
+			GameHUD,
 			GameOver
+		},
+		data() {
+			return {
+				lives: 0
+			};
 		},
 		computed: {
 			...mapState('game', [
 				'images',
-				'settings',
 				'backgroundPosition',
 				'selectedBackground',
 				'selectedDummy',
 				'selectedDifficulty'
 			]),
+			...mapState('settings', [
+				'controls',
+				'sound',
+				'music'
+			]),
 			...mapState('ui', [
 				'gameOver'
-			])
+			]),
+			/**
+			 * Returns the correct dummy image depending on the selected dummy
+			 * @returns {String}
+			 */
+			hudDummyImage() {
+				if (this.selectedDummy === 'green') {
+					return this.images.dummy.green.right.idle[0].src;
+				}
+
+				return this.images.dummy.yellow.right.idle[0].src;
+			}
 		},
 		/**
 		 * Starts the game
@@ -55,6 +86,9 @@
 			...mapActions('game', [
 				'setSelectedBackground',
 				'setBackgroundPosition'
+			]),
+			...mapActions('settings', [
+				'updateSettings'
 			]),
 			...mapActions('ui', [
 				'showGameOver',
@@ -83,7 +117,8 @@
 					skin: this.selectedDummy
 				};
 
-				game = new Game(canvasIds, '.canvas-wrapper', this.images, config.game, customSettings, this.settings.controls, {
+				game = new Game(canvasIds, '.canvas-wrapper', this.images, config.game, customSettings, this.controls, {
+					onUpdateHUD: this.updateHUD,
 					onGameOver: this.showGameOver,
 					playMusic: this.playMusic,
 					playTrack: (track, volume) => {
@@ -105,6 +140,13 @@
 			saveBackgroundParams() {
 				this.setSelectedBackground(game.background.state.selectedBackground);
 				this.setBackgroundPosition(game.background.state.x);
+			},
+			/**
+			 * Updates the game hud
+			 * @param {Object} hudData
+			 */
+			updateHUD(hudData) {
+				this.lives = hudData.lives;
 			},
 			/**
 			 * Restarts the game with the same settings

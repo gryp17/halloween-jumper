@@ -45,7 +45,9 @@
 		},
 		methods: {
 			...mapActions('game', [
-				'preloadGameImages',
+				'preloadGameImages'
+			]),
+			...mapActions('settings', [
 				'getSettings'
 			])
 		}
