@@ -5,7 +5,9 @@ const getDefaultState = () => {
 	return {
 		controls: {},
 		sound: true,
-		music: true
+		music: true,
+		soundVolume: 1,
+		musicVolume: 0.4
 	};
 };
 
@@ -27,6 +29,12 @@ const mutations = {
 	},
 	SET_MUSIC(state, music) {
 		state.music = music;
+	},
+	SET_SOUND_VOLUME(state, volume) {
+		state.soundVolume = volume;
+	},
+	SET_MUSIC_VOLUME(state, volume) {
+		state.musicVolume = volume;
 	}
 };
 
@@ -70,6 +78,8 @@ const actions = {
 		context.commit('SET_CONTROLS', settings.controls);
 		context.commit('SET_SOUND', settings.sound);
 		context.commit('SET_MUSIC', settings.music);
+		context.commit('SET_SOUND_VOLUME', settings.soundVolume);
+		context.commit('SET_MUSIC_VOLUME', settings.musicVolume);
 	},
 	/**
 	 * Updates the settings object with the provided values
@@ -78,8 +88,12 @@ const actions = {
 	 */
 	updateSettings(context, newSettings) {
 		//merge the current values with the new settings values
+		const currentSettings = {
+			...context.state
+		};
+
 		const settings = {
-			...context.state,
+			...currentSettings,
 			...newSettings
 		};
 
@@ -87,11 +101,16 @@ const actions = {
 
 		const musicIsEnabled = settings.music;
 		const musicIsPlaying = context.rootState.audio.musicIsPlaying;
+		const musicVolumeChanged = newSettings.musicVolume !== currentSettings.musicVolume;
+
+		//change the music volume if it's already playing
+		if (musicIsEnabled && musicIsPlaying && musicVolumeChanged) {
+			context.dispatch('audio/changeMusicVolume', newSettings.musicVolume, { root: true });
+		}
 
 		//start/stop the music when the music flag changes
 		if (musicIsEnabled && !musicIsPlaying) {
-			//TODO: don't hardcode the 0.2 volume
-			context.dispatch('audio/playMusic', 0.2, { root: true });
+			context.dispatch('audio/playMusic', null, { root: true });
 		} else if (!musicIsEnabled && musicIsPlaying) {
 			context.dispatch('audio/stopMusic', null, { root: true });
 		}

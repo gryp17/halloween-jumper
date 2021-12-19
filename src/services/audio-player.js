@@ -79,7 +79,7 @@ const throttledPlayTrack = _.throttle(playTrack, 100);
  * Plays all the music tracks shuffled and repeating
  * @param {Float} volume
  */
-function playMusic(volume = 0.2) {
+function playMusic(volume = 1) {
 	const audioTracks = _.shuffle(Object.values(musicTracks));
 	let currentTrack = 0;
 
@@ -114,9 +114,18 @@ function stopMusic() {
 	player.currentTime = 0;
 }
 
+/**
+ * Changes the music player volume
+ * @param {Float} volume
+ */
+function changeMusicVolume(volume) {
+	player.volume = volume;
+}
+
 export default {
 	playTrack,
 	throttledPlayTrack,
 	playMusic,
-	stopMusic
+	stopMusic,
+	changeMusicVolume
 };

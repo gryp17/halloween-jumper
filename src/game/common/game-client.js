@@ -33,7 +33,6 @@ export default class GameClient {
 		//events
 		this.onGameOver = events.onGameOver;
 		this.onUpdateHUD = events.onUpdateHUD;
-		this.playMusic = events.playMusic;
 		this.playTrack = events.playTrack;
 
 		this.gameControls = controls;

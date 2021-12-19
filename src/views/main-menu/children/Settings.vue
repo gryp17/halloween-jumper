@@ -55,7 +55,7 @@
 								</div>
 
 								<vue-slider
-									v-model="audio.soundEffectsVolume"
+									v-model="audio.soundVolume"
 									v-bind="sliderOptions"
 								/>
 
@@ -121,8 +121,8 @@
 				audio: {
 					sound: true,
 					music: true,
-					musicVolume: 20,
-					soundEffectsVolume: 20
+					musicVolume: 50,
+					soundVolume: 50
 				},
 				sliderOptions: {
 					dragOnClick: false,
@@ -136,7 +136,9 @@
 			...mapState('settings', [
 				'controls',
 				'sound',
-				'music'
+				'music',
+				'soundVolume',
+				'musicVolume'
 			]),
 			/**
 			 * Contains the valid input key codes
@@ -153,6 +155,8 @@
 			this.inputs = _.cloneDeep(this.controls);
 			this.audio.sound = this.sound;
 			this.audio.music = this.music;
+			this.audio.soundVolume = this.soundVolume * 100;
+			this.audio.musicVolume = this.musicVolume * 100;
 		},
 		methods: {
 			...mapActions('settings', [
@@ -187,9 +191,16 @@
 			 * Saves the settings
 			 */
 			submit() {
+				//convert the volume values from 0..100 integers to float
+				const audioSettings = {
+					...this.audio,
+					soundVolume: this.audio.soundVolume / 100,
+					musicVolume: this.audio.musicVolume / 100
+				};
+
 				this.updateSettings({
 					controls: this.inputs,
-					...this.audio
+					...audioSettings
 				});
 
 				this.$router.push({ name: 'initial-screen' });

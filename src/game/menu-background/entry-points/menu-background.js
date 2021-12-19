@@ -14,7 +14,7 @@ export default class MenuBackground extends GameClient {
 	 * @param {Object} config
 	 */
 	constructor(canvasIds, canvasWrapper, images, config) {
-		super(canvasIds, canvasWrapper, images, config, {}, {}, { playMusic: () => {}, playTrack: () => {} });
+		super(canvasIds, canvasWrapper, images, config, {}, {}, { playTrack: () => {} });
 
 		this.background;
 	}

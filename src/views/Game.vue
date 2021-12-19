@@ -95,9 +95,7 @@
 				'hideGameOver'
 			]),
 			...mapActions('audio', [
-				'playTrack',
-				'playMusic',
-				'stopMusic'
+				'playTrack'
 			]),
 			/**
 			 * Starts the game
@@ -120,7 +118,6 @@
 				game = new Game(canvasIds, '.canvas-wrapper', this.images, config.game, customSettings, this.controls, {
 					onUpdateHUD: this.updateHUD,
 					onGameOver: this.showGameOver,
-					playMusic: this.playMusic,
 					playTrack: (track, volume) => {
 						this.playTrack({
 							track,

@@ -26,9 +26,14 @@ const actions = {
 	 */
 	playTrack(context, { track, volume }) {
 		const soundIsEnabled = context.rootState.settings.sound;
+		const soundVolume = context.rootState.settings.soundVolume;
+
+		//multiply the custom volume parameter (if it's set) with the settings volume to calculate the correct volume
+		//that way each track can have a different volume, but the global volume will still affect it
+		const finalVolume = volume ? soundVolume * volume : soundVolume;
 
 		if (soundIsEnabled) {
-			return AudioPlayer.throttledPlayTrack(track, volume);
+			return AudioPlayer.throttledPlayTrack(track, finalVolume);
 		}
 	},
 	/**
@@ -36,12 +41,13 @@ const actions = {
 	 * @param {Object} context
 	 * @param {Float} volume
 	 */
-	playMusic(context, volume = 0.2) {
+	playMusic(context) {
 		const musicIsEnabled = context.rootState.settings.music;
+		const musicVolume = context.rootState.settings.musicVolume;
 		const musicIsPlaying = context.state.musicIsPlaying;
 
 		if (musicIsEnabled && !musicIsPlaying) {
-			AudioPlayer.playMusic(volume);
+			AudioPlayer.playMusic(musicVolume);
 			context.commit('SET_MUSIC_IS_PLAYING', true);
 		}
 	},
@@ -52,6 +58,14 @@ const actions = {
 	stopMusic(context) {
 		AudioPlayer.stopMusic();
 		context.commit('SET_MUSIC_IS_PLAYING', false);
+	},
+	/**
+	 * Changes the music player volume
+	 * @param {Object} context
+	 * @param {Float} volume
+	 */
+	changeMusicVolume(context, volume) {
+		AudioPlayer.changeMusicVolume(volume);
 	}
 };
 
