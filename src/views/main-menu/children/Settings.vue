@@ -48,6 +48,26 @@
 							<FormSwitch v-model="audio.music">
 								Background music
 							</FormSwitch>
+
+							<div class="volume-settings">
+								<div class="volume-label">
+									Sound effects volume
+								</div>
+
+								<vue-slider
+									v-model="audio.soundEffectsVolume"
+									v-bind="sliderOptions"
+								/>
+
+								<div class="volume-label">
+									Background music volume
+								</div>
+
+								<vue-slider
+									v-model="audio.musicVolume"
+									v-bind="sliderOptions"
+								/>
+							</div>
 						</Tab>
 					</Tabs>
 				</div>
@@ -80,6 +100,8 @@
 <script>
 	import { mapState, mapActions } from 'vuex';
 	import { Tabs, Tab } from 'vue-tabs-component';
+	import VueSlider from 'vue-slider-component';
+
 	import MainMenuSection from '@/components/MainMenuSection';
 	import ControlInput from '@/components/ControlInput';
 
@@ -89,6 +111,7 @@
 		components: {
 			Tabs,
 			Tab,
+			VueSlider,
 			MainMenuSection,
 			ControlInput
 		},
@@ -97,7 +120,15 @@
 				inputs: {},
 				audio: {
 					sound: true,
-					music: true
+					music: true,
+					musicVolume: 20,
+					soundEffectsVolume: 20
+				},
+				sliderOptions: {
+					dragOnClick: true,
+					height: 12,
+					dotSize: 20,
+					tooltip: 'none'
 				}
 			};
 		},
@@ -212,6 +243,14 @@
 							text-transform: uppercase;
 						}
 					}
+				}
+			}
+
+			.volume-settings {
+				margin-top: 25px;
+
+				.volume-label {
+					margin-top: 5px;
 				}
 			}
 		}
