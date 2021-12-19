@@ -125,7 +125,7 @@
 					soundEffectsVolume: 20
 				},
 				sliderOptions: {
-					dragOnClick: true,
+					dragOnClick: false,
 					height: 12,
 					dotSize: 20,
 					tooltip: 'none'
