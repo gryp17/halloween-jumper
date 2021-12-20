@@ -1,23 +1,32 @@
 <template>
 	<div class="initial-screen">
-		<div @click="$router.push({ name: 'level-select' })">
+		<MenuButton
+			title="Play"
+			@click="$router.push({ name: 'level-select' })"
+		>
 			Play
-		</div>
-		<div @click="$router.push({ name: 'settings' })">
+		</MenuButton>
+		<MenuButton
+			title="Settings"
+			@click="$router.push({ name: 'settings' })"
+		>
 			Settings
-		</div>
-		<div @click="$router.push({ name: 'about' })">
+		</MenuButton>
+		<MenuButton
+			title="About"
+			@click="$router.push({ name: 'about' })"
+		>
 			About
-		</div>
+		</MenuButton>
 	</div>
 </template>
 
-<style scoped lang="scss">
-	.initial-screen {
-		div {
-			padding: 10px;
-			text-align: center;
-			font-size: 24px;
+<script>
+	import MenuButton from '@/components/MenuButton';
+
+	export default {
+		components: {
+			MenuButton
 		}
-	}
-</style>
+	};
+</script>

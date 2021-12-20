@@ -2,20 +2,30 @@
 	<div class="game-over">
 		<div :class="['inner-wrapper', gameOverAnimationClass]">
 			<img class="game-over-image" src="@/assets/img/game-over.png" />
-			<div @click="onRestart">
+			<MenuButton
+				title="Restart"
+				@click="onRestart"
+			>
 				Restart
-			</div>
-			<div @click="onMainMenu">
+			</MenuButton>
+			<MenuButton
+				title="Main menu"
+				@click="onMainMenu"
+			>
 				Main menu
-			</div>
+			</MenuButton>
 		</div>
 	</div>
 </template>
 
 <script>
 	import { mapState } from 'vuex';
+	import MenuButton from '@/components/MenuButton';
 
 	export default {
+		components: {
+			MenuButton
+		},
 		computed: {
 			...mapState('ui', [
 				'gameOverAnimationClass'
