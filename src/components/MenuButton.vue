@@ -29,7 +29,7 @@
 			transition: all 500ms ease;
 			border-radius: 3px;
 
-			&:hover, &:focus, &:active {
+			&:hover {
 				background-color: rgba($white, 0.2);
 			}
 		}

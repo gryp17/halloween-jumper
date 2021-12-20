@@ -34,15 +34,46 @@
 		},
 		computed: {
 			...mapState('ui', [
+				'gamePaused',
 				'gamePausedMenuAnimationClass'
 			])
 		},
+		/**
+		 * Attach the keydown event listener
+		 */
+		mounted() {
+			document.addEventListener('keydown', this.onKeyPress);
+		},
+		/**
+		 * Remove the keydown event listener
+		 */
+		beforeDestroy() {
+			document.removeEventListener('keydown', this.onKeyPress);
+		},
 		methods: {
+			/**
+			 * Listen for the escape key press and pause/resume the game
+			 */
+			onKeyPress(e) {
+				if (e.keyCode === 27) {
+					if (this.gamePaused) {
+						this.onResume();
+					} else {
+						this.onPause();
+					}
+				}
+			},
 			/**
 			 * Emits the resume event
 			 */
 			onResume() {
 				this.$emit('resume');
+			},
+			/**
+			 * Emits the pause event
+			 */
+			onPause() {
+				this.$emit('pause');
 			},
 			/**
 			 * Emits the restart event

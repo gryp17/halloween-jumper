@@ -13,14 +13,15 @@
 		/>
 
 		<GameOverMenu
-			v-if="gameOver"
+			v-show="gameOver"
 			@restart="onRestart"
 			@main-menu="onOpenMainMenu"
 		/>
 
 		<GamePausedMenu
-			v-if="gamePaused"
+			v-show="gamePaused"
 			@resume="onResume"
+			@pause="onPause"
 			@restart="onRestart"
 			@main-menu="onOpenMainMenu"
 		/>
