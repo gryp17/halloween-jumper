@@ -170,6 +170,10 @@
 			 * Pauses the game
 			 */
 			onPause() {
+				if (this.gameOver) {
+					return;
+				}
+
 				this.showGamePausedMenu();
 				game.pause();
 			},
