@@ -24,6 +24,14 @@
 				<i class="fas fa-music"></i>
 			</FormButton>
 		</div>
+
+		<!-- TODO: display this button only on mobile devices? or only on lower resolutions? -->
+		<button
+			v-if="showPauseButton"
+			@click="pause"
+		>
+			Pause
+		</button>
 	</div>
 </template>
 
@@ -46,6 +54,15 @@
 		components: {
 			LivesDisplay
 		},
+		computed: {
+			/**
+			 * Show the pause button only if the event listener was provided
+			 * @returns {Boolean}
+			 */
+			showPauseButton() {
+				return !!this.$listeners.pause;
+			}
+		},
 		methods: {
 			/**
 			 * Emits the "set-sound" or "set-music" events with the toggled preference value
@@ -53,11 +70,14 @@
 			 * @param {Boolean} value
 			 */
 			setSoundPreference(preference, value) {
-				//give focus back to the canvas after clicking any of the buttons
-				$('.canvas').focus();
-
 				const action = `set-${preference}`;
 				this.$emit(action, value);
+			},
+			/**
+			 * Emits the pause event
+			 */
+			pause() {
+				this.$emit('pause');
 			}
 		}
 	};

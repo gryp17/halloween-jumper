@@ -4,8 +4,10 @@ const getDefaultState = () => {
 	return {
 		animations: config.animations,
 		mainMenuAnimationClass: '',
-		gameOverAnimationClass: '',
-		gameOver: false
+		gameOverMenuAnimationClass: '',
+		gamePausedMenuAnimationClass: '',
+		gameOver: false,
+		gamePaused: false
 	};
 };
 
@@ -67,11 +69,17 @@ const mutations = {
 	SET_MAIN_MENU_ANIMATION_CLASS(state, animation) {
 		state.mainMenuAnimationClass = animation;
 	},
-	SET_GAME_OVER_ANIMATION_CLASS(state, animation) {
-		state.gameOverAnimationClass = animation;
+	SET_GAME_OVER_MENU_ANIMATION_CLASS(state, animation) {
+		state.gameOverMenuAnimationClass = animation;
+	},
+	SET_GAME_PAUSED_MENU_ANIMATION_CLASS(state, animation) {
+		state.gamePausedMenuAnimationClass = animation;
 	},
 	SET_GAME_OVER(state, gameOver) {
 		state.gameOver = gameOver;
+	},
+	SET_GAME_PAUSED(state, gamePaused) {
+		state.gamePaused = gamePaused;
 	}
 };
 
@@ -110,11 +118,11 @@ const actions = {
 	 * @param {Object} context
 	 * @returns {Promise}
 	 */
-	showGameOver(context) {
+	showGameOverMenu(context) {
 		context.commit('SET_GAME_OVER', true);
 
 		return new Promise((resolve) => {
-			context.commit('SET_GAME_OVER_ANIMATION_CLASS', context.getters.showAnimation);
+			context.commit('SET_GAME_OVER_MENU_ANIMATION_CLASS', context.getters.showAnimation);
 			setTimeout(resolve, config.animations.duration);
 		});
 	},
@@ -123,11 +131,38 @@ const actions = {
 	 * @param {Object} context
 	 * @returns {Promise}
 	 */
-	hideGameOver(context) {
+	hideGameOverMenu(context) {
 		return new Promise((resolve) => {
-			context.commit('SET_GAME_OVER_ANIMATION_CLASS', context.getters.hideAnimation);
+			context.commit('SET_GAME_OVER_MENU_ANIMATION_CLASS', context.getters.hideAnimation);
 			setTimeout(() => {
 				context.commit('SET_GAME_OVER', false);
+				resolve();
+			}, config.animations.duration);
+		});
+	},
+	/**
+	 * Shows the game paused menu using an animation
+	 * @param {Object} context
+	 * @returns {Promise}
+	 */
+	showGamePausedMenu(context) {
+		context.commit('SET_GAME_PAUSED', true);
+
+		return new Promise((resolve) => {
+			context.commit('SET_GAME_PAUSED_MENU_ANIMATION_CLASS', context.getters.showAnimation);
+			setTimeout(resolve, config.animations.duration);
+		});
+	},
+	/**
+	 * Hides the game paused menu using an animation
+	 * @param {Object} context
+	 * @returns {Promise}
+	 */
+	hideGamePausedMenu(context) {
+		return new Promise((resolve) => {
+			context.commit('SET_GAME_PAUSED_MENU_ANIMATION_CLASS', context.getters.hideAnimation);
+			setTimeout(() => {
+				context.commit('SET_GAME_PAUSED', false);
 				resolve();
 			}, config.animations.duration);
 		});

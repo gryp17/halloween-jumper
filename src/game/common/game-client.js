@@ -24,7 +24,7 @@ export default class GameClient {
 		this.canvasIds = canvasIds;
 		this.canvasWrapper = canvasWrapper;
 		this.gameIsOver = false;
-		this.musicIsPlaying = false;
+		this.gameIsPaused = false;
 		this.config = this.applySettings(config, customSettings);
 		this.inputs;
 		this.images = images;
@@ -102,6 +102,32 @@ export default class GameClient {
 	}
 
 	/**
+	 * Pauses the game
+	 */
+	pause() {
+		this.gameIsPaused = true;
+	}
+
+	/**
+	 * Resumes the game
+	 */
+	resume() {
+		if (this.gameIsPaused) {
+			this.gameIsPaused = false;
+			this.gameLoop();
+		}
+	}
+
+	/**
+	 * Focuses the game canvases
+	 */
+	focus() {
+		_.forOwn(this.contexts, (value, key) => {
+			this.contexts[key].focus();
+		});
+	}
+
+	/**
 	 * Triggers the game over event and raises the game over flag
 	 */
 	gameOver() {
@@ -135,6 +161,10 @@ export default class GameClient {
 	 * The game logic that runs every game tick
 	 */
 	gameLoop() {
+		if (this.gameIsPaused) {
+			return;
+		}
+
 		this.inputs = this.getInputs();
 
 		//clear the whole canvas before drawing anything

@@ -1,7 +1,13 @@
 <template>
-	<div class="game-over">
-		<div :class="['inner-wrapper', gameOverAnimationClass]">
-			<img class="game-over-image" src="@/assets/img/game-over.png" />
+	<div class="game-paused-menu">
+		<div :class="['inner-wrapper', gamePausedMenuAnimationClass]">
+			<img class="game-paused-menu-image" src="@/assets/img/game-paused.png" />
+			<MenuButton
+				title="Resume"
+				@click="onResume"
+			>
+				Resume
+			</MenuButton>
 			<MenuButton
 				title="Restart"
 				@click="onRestart"
@@ -28,10 +34,16 @@
 		},
 		computed: {
 			...mapState('ui', [
-				'gameOverAnimationClass'
+				'gamePausedMenuAnimationClass'
 			])
 		},
 		methods: {
+			/**
+			 * Emits the resume event
+			 */
+			onResume() {
+				this.$emit('resume');
+			},
 			/**
 			 * Emits the restart event
 			 */
@@ -49,13 +61,14 @@
 </script>
 
 <style scoped lang="scss">
-	.game-over {
+	.game-paused-menu {
 		position: absolute;
 		display: flex;
 		top: 0px;
 		left: 0px;
 		width: 100%;
 		height: 100%;
+		z-index: 1;
 
 		.inner-wrapper {
 			padding: 20px;
@@ -65,16 +78,10 @@
 			border-radius: 3px;
 			z-index: 1;
 
-			.game-over-image {
+			.game-paused-menu-image {
 				display: block;
 				margin: auto;
 				width: 100%;
-			}
-
-			div {
-				padding: 10px;
-				text-align: center;
-				font-size: 24px;
 			}
 		}
 	}

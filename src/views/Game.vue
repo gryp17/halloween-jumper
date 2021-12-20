@@ -7,12 +7,20 @@
 			:dummy-image="hudDummyImage"
 			:sound="sound"
 			:music="music"
-			@set-sound="updateSettings({ 'sound': $event })"
-			@set-music="updateSettings({ 'music': $event })"
+			@set-sound="onUpdateSettings({ 'sound': $event })"
+			@set-music="onUpdateSettings({ 'music': $event })"
+			@pause="onPause"
 		/>
 
-		<GameOver
+		<GameOverMenu
 			v-if="gameOver"
+			@restart="onRestart"
+			@main-menu="onOpenMainMenu"
+		/>
+
+		<GamePausedMenu
+			v-if="gamePaused"
+			@resume="onResume"
 			@restart="onRestart"
 			@main-menu="onOpenMainMenu"
 		/>
@@ -26,14 +34,16 @@
 	import config from '@/game/config';
 
 	import GameHUD from '@/components/game-hud/GameHUD';
-	import GameOver from '@/components/GameOver';
+	import GameOverMenu from '@/components/GameOverMenu';
+	import GamePausedMenu from '@/components/GamePausedMenu';
 
 	let game;
 
 	export default {
 		components: {
 			GameHUD,
-			GameOver
+			GameOverMenu,
+			GamePausedMenu
 		},
 		data() {
 			return {
@@ -54,7 +64,8 @@
 				'music'
 			]),
 			...mapState('ui', [
-				'gameOver'
+				'gameOver',
+				'gamePaused'
 			]),
 			/**
 			 * Returns the correct dummy image depending on the selected dummy
@@ -91,8 +102,10 @@
 				'updateSettings'
 			]),
 			...mapActions('ui', [
-				'showGameOver',
-				'hideGameOver'
+				'showGameOverMenu',
+				'hideGameOverMenu',
+				'showGamePausedMenu',
+				'hideGamePausedMenu'
 			]),
 			...mapActions('audio', [
 				'playTrack'
@@ -117,7 +130,7 @@
 
 				game = new Game(canvasIds, '.canvas-wrapper', this.images, config.game, customSettings, this.controls, {
 					onUpdateHUD: this.updateHUD,
-					onGameOver: this.showGameOver,
+					onGameOver: this.showGameOverMenu,
 					playTrack: (track, volume) => {
 						this.playTrack({
 							track,
@@ -139,6 +152,13 @@
 				this.setBackgroundPosition(game.background.state.x);
 			},
 			/**
+			 * Updates the audio settings and gives back focus to the game canvas
+			 */
+			onUpdateSettings(settings) {
+				this.updateSettings(settings);
+				game.focus();
+			},
+			/**
 			 * Updates the game hud
 			 * @param {Object} hudData
 			 */
@@ -146,10 +166,29 @@
 				this.lives = hudData.lives;
 			},
 			/**
+			 * Pauses the game
+			 */
+			onPause() {
+				this.showGamePausedMenu();
+				game.pause();
+			},
+			/**
+			 * Resumes the game
+			 */
+			async onResume() {
+				await this.hideGamePausedMenu();
+				game.focus();
+				game.resume();
+			},
+			/**
 			 * Restarts the game with the same settings
 			 */
 			async onRestart() {
-				await this.hideGameOver();
+				await Promise.all([
+					this.hideGameOverMenu(),
+					this.hideGamePausedMenu()
+				]);
+
 				this.saveBackgroundParams();
 				game.stop();
 				this.initGame();
@@ -158,7 +197,11 @@
 			 * Opens the main menu screen
 			 */
 			async onOpenMainMenu() {
-				await this.hideGameOver();
+				await Promise.all([
+					this.hideGameOverMenu(),
+					this.hideGamePausedMenu()
+				]);
+
 				this.saveBackgroundParams();
 
 				this.$router.push({

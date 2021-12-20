@@ -187,9 +187,7 @@ export default class Jumper extends GameClient {
 		this.keyboard.listen();
 		this.touchscreen.listen();
 
-		this.speedUpIntervalId = setInterval(() => {
-			this.speedUp();
-		}, this.speedUpInterval);
+		this.startSpeedUpInterval();
 
 		this.updateHUD();
 
@@ -205,12 +203,54 @@ export default class Jumper extends GameClient {
 	}
 
 	/**
+	 * Pauses the game
+	 */
+	pause() {
+		super.pause();
+		this.clearSpeedUpInterval();
+	}
+
+	/**
+	 * Resumes the game
+	 */
+	resume() {
+		if (this.gameIsPaused) {
+			super.resume();
+			this.startSpeedUpInterval();
+		}
+	}
+
+	/**
 	 * Cleans up all event handlers and timeouts/intervals
 	 */
 	cleanUp() {
+		this.removeEventListeners();
+		this.clearSpeedUpInterval();
+	}
+
+	/**
+	 * Removes all event listeners
+	 */
+	removeEventListeners() {
 		this.keyboard.removeAllEventListeners();
 		this.touchscreen.removeAllEventListeners();
+	}
 
+	/**
+	 * Starts the speed up interval
+	 */
+	startSpeedUpInterval() {
+		this.clearSpeedUpInterval();
+
+		this.speedUpIntervalId = setInterval(() => {
+			this.speedUp();
+		}, this.speedUpInterval);
+	}
+
+	/**
+	 * Clear speed up interval
+	 */
+	clearSpeedUpInterval() {
 		clearInterval(this.speedUpIntervalId);
 	}
 
