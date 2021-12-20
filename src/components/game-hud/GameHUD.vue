@@ -75,16 +75,20 @@
 
 		.audio-controls-wrapper {
 			position: absolute;
+			display: flex;
 			right: 0px;
 			top: 0px;
 			padding: 15px;
 
 			.form-button {
+				display: flex;
+				justify-content: center;
+				align-items: center;
 				width: 43px;
 				height: 43px;
 				padding: 0px;
 				border-radius: 100%;
-				border: solid 2px lighten($purple, 10%);
+				border: solid 2px lighten($orange, 10%);
 				background-color: $white;
 				opacity: 0.6;
 
@@ -98,7 +102,7 @@
 				}
 
 				&.active, &:hover {
-					border-color: $purple;
+					border-color: $orange;
 					opacity: 1;
 				}
 			}

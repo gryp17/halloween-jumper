@@ -101,7 +101,7 @@ const actions = {
 
 		const musicIsEnabled = settings.music;
 		const musicIsPlaying = context.rootState.audio.musicIsPlaying;
-		const musicVolumeChanged = newSettings.musicVolume !== currentSettings.musicVolume;
+		const musicVolumeChanged = newSettings.musicVolume && (newSettings.musicVolume !== currentSettings.musicVolume);
 
 		//change the music volume if it's already playing
 		if (musicIsEnabled && musicIsPlaying && musicVolumeChanged) {

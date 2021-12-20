@@ -9,6 +9,7 @@
 		/>
 
 		<GameHUD
+			v-if="showHUD"
 			:sound="sound"
 			:music="music"
 			@set-sound="updateSettings({ 'sound': $event })"
@@ -51,7 +52,14 @@
 			...mapState('settings', [
 				'sound',
 				'music'
-			])
+			]),
+			/**
+			 * Show the game HUD in the main menu in every section except the intro screen
+			 * @returns {Boolean}
+			 */
+			showHUD() {
+				return this.$route.name !== 'intro';
+			}
 		},
 		/**
 		 * Sets the menu background or picks a random one from the list
@@ -92,6 +100,8 @@
 		display: flex;
 		width: 100%;
 		height: 100%;
+		//fix for the jackInTheBox main menu intro animation
+		overflow-x: hidden;
 
 		.inner-wrapper {
 			padding: 20px;
