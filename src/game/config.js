@@ -233,6 +233,16 @@ export default {
 		],
 		hide: 'animate__backOutUp'
 	},
+	defaultAudioSettings: {
+		sound: {
+			enabled: true,
+			volume: 1
+		},
+		music: {
+			enabled: true,
+			volume: 0.4
+		}
+	},
 	storage: {
 		settingsKey: 'halloween-jumper-settings'
 	}

@@ -216,8 +216,10 @@
 				}
 
 				if (currentTab === '#sound') {
-					this.audio.sound = true;
-					this.audio.music = true;
+					this.audio.sound = config.defaultAudioSettings.sound.enabled;
+					this.audio.music = config.defaultAudioSettings.music.enabled;
+					this.audio.soundVolume = config.defaultAudioSettings.sound.volume * 100;
+					this.audio.musicVolume = config.defaultAudioSettings.music.volume * 100;
 				}
 			}
 		}

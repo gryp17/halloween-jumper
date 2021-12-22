@@ -3,11 +3,11 @@ import config from '@/game/config';
 
 const getDefaultState = () => {
 	return {
-		controls: {},
-		sound: true,
-		music: true,
-		soundVolume: 1,
-		musicVolume: 0.4
+		controls: config.defaultControls,
+		sound: config.defaultAudioSettings.sound.enabled,
+		music: config.defaultAudioSettings.music.enabled,
+		soundVolume: config.defaultAudioSettings.sound.volume, //1
+		musicVolume: config.defaultAudioSettings.music.volume //0.4
 	};
 };
 
@@ -56,12 +56,7 @@ const actions = {
 
 		//if no settings are present in the storage use the default settings
 		if (!settings) {
-			const defaultState = getDefaultState();
-
-			settings = {
-				...defaultState,
-				controls: config.defaultControls
-			};
+			settings = getDefaultState();
 		}
 
 		context.dispatch('setSettings', settings);
