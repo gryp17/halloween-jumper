@@ -5,6 +5,7 @@
 		<GameHUD
 			:lives="lives"
 			:dummy-image="hudDummyImage"
+			:paused="gamePaused"
 			:sound="sound"
 			:music="music"
 			@set-sound="onUpdateSettings({ 'sound': $event })"

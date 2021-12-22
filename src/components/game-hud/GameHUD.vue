@@ -7,31 +7,35 @@
 			:dummy-image="dummyImage"
 		/>
 
-		<div class="audio-controls-wrapper">
+		<div class="buttons-wrapper">
 			<FormButton
 				transparent
+				title="Toggle sound effects"
 				:active="sound"
 				@click="setSoundPreference('sound', !sound)"
 			>
-				<i class="fas fa-volume-up"></i>
+				<font-awesome-icon :icon="['fas', 'volume-up']" />
 			</FormButton>
 
 			<FormButton
 				transparent
+				title="Toggle music"
 				:active="music"
 				@click="setSoundPreference('music', !music)"
 			>
-				<i class="fas fa-music"></i>
+				<font-awesome-icon :icon="['fas', 'music']" />
+			</FormButton>
+
+			<FormButton
+				v-if="showPauseButton"
+				transparent
+				title="Pause game"
+				:active="paused"
+				@click="pause"
+			>
+				<font-awesome-icon :icon="['fas', 'pause']" />
 			</FormButton>
 		</div>
-
-		<!-- TODO: display this button only on mobile devices? or only on lower resolutions? -->
-		<button
-			v-if="showPauseButton"
-			@click="pause"
-		>
-			Pause
-		</button>
 	</div>
 </template>
 
@@ -42,6 +46,10 @@
 		props: {
 			lives: Number,
 			dummyImage: String,
+			paused: {
+				type: Boolean,
+				default: false
+			},
 			sound: {
 				type: Boolean,
 				default: false
@@ -93,7 +101,7 @@
 		user-select: none;
 		z-index: 1;
 
-		.audio-controls-wrapper {
+		.buttons-wrapper {
 			position: absolute;
 			display: flex;
 			right: 0px;
@@ -129,7 +137,7 @@
 		}
 
 		@media (max-width: $small) {
-			.audio-controls-wrapper {
+			.buttons-wrapper {
 				.form-button {
 					width: 35px;
 					height: 35px;
