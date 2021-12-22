@@ -1,6 +1,9 @@
 <template>
 	<div class="main-menu-section">
-		<div class="section-title">
+		<div
+			v-if="hasTitle"
+			class="section-title"
+		>
 			<slot name="title"></slot>
 		</div>
 
@@ -13,6 +16,20 @@
 		</div>
 	</div>
 </template>
+
+<script>
+	export default {
+		computed: {
+			/**
+			 * Indicates whether the title slot was provided
+			 * @returns {Boolean}
+			 */
+			hasTitle() {
+				return !!this.$slots.title;
+			}
+		}
+	};
+</script>
 
 <style scoped lang="scss">
 	.main-menu-section {
