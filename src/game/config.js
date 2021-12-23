@@ -240,7 +240,7 @@ export default {
 		},
 		music: {
 			enabled: true,
-			volume: 0.4
+			volume: 0.2
 		}
 	},
 	storage: {
