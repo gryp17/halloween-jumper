@@ -36,6 +36,9 @@
 				loading: true
 			};
 		},
+		/**
+		 * Load all the global application data before displaying the application
+		 */
 		async mounted() {
 			await Promise.all([
 				this.preloadGameImages(),

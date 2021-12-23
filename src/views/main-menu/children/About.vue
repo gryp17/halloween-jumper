@@ -62,6 +62,8 @@
 			margin-top: 20px;
 
 			.intro {
+				margin: auto;
+				max-width: 600px;
 				font-size: 18px;
 				text-align: center;
 				font-weight: bold;

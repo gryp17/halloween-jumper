@@ -59,6 +59,11 @@
 			...mapActions('game', [
 				'setSelectedBackground'
 			]),
+			/**
+			 * Capitalizes the provided text
+			 * @param {String} text
+			 * @returns {String}
+			 */
 			ucfirst(text) {
 				return _.upperFirst(text);
 			}

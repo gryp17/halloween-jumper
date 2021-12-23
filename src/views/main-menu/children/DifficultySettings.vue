@@ -79,6 +79,10 @@
 			...mapState('game', [
 				'selectedDifficulty'
 			]),
+			/**
+			 * Returns the difficulty summary depending on the selected difficulty
+			 * @returns {Array}
+			 */
 			difficultySummary() {
 				return this.difficultyItems[this.selectedDifficulty];
 			}
@@ -90,6 +94,11 @@
 			...mapActions('game', [
 				'setSelectedDifficulty'
 			]),
+			/**
+			 * Capitalizes the provided text
+			 * @param {String} text
+			 * @returns {String}
+			 */
 			ucfirst(text) {
 				return _.upperFirst(text);
 			},

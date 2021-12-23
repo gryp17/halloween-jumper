@@ -49,6 +49,10 @@
 				'images',
 				'selectedDummy'
 			]),
+			/**
+			 * Returns the playable characters with their information
+			 * @returns {Array}
+			 */
 			dummyImages() {
 				return [
 					{

@@ -54,10 +54,11 @@
 				'music'
 			]),
 			/**
-			 * Show the game HUD in the main menu in every section except the intro screen
+			 * Indicates whether the HUD should be visible.
 			 * @returns {Boolean}
 			 */
 			showHUD() {
+				// show the game HUD in the main menu in every section except the intro screen
 				return this.$route.name !== 'intro';
 			}
 		},

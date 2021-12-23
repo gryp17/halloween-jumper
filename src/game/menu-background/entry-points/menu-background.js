@@ -1,5 +1,4 @@
 import GameClient from '../../common/game-client';
-// import Background from '../game-entities/background';
 import Background from '@/game/jumper/game-entities/background';
 
 /**
