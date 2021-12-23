@@ -38,8 +38,8 @@
 					this.$emit('input', keyCode);
 				}
 
-				//on backspace clear the input
-				if (keyCode === 8) {
+				//on backspace or escape clear the input
+				if (keyCode === 8 || keyCode === 27) {
 					this.$emit('input', null);
 				}
 			},
