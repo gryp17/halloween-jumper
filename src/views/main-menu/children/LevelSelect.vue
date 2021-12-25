@@ -100,7 +100,7 @@
 			}
 		}
 
-		@media (max-width: $small) {
+		@media (max-width: $medium-small) {
 			.levels-list {
 				.level {
 					width: 50%;
