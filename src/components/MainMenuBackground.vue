@@ -23,26 +23,23 @@
 				required: true
 			}
 		},
+		watch: {
+			/**
+			 * Watch for image changes and reinitialize the background animation with the new image
+			 */
+			image() {
+				if (menuBackground) {
+					menuBackground.stop();
+				}
+
+				this.init();
+			}
+		},
 		/**
 		 * Initializes the MenuBackground canvas animation
 		 */
 		mounted() {
-			const canvasIds = {
-				background: 'menu-background'
-			};
-
-			const menuConfig = {
-				...config.menu
-			};
-
-			//set the selected background image
-			menuConfig.background.selectedBackground = this.image;
-
-			menuBackground = new MenuBackground(canvasIds, '.main-menu-background', this.images, menuConfig);
-			menuBackground.start();
-
-			//move the background image to the specified position
-			menuBackground.background.x = this.startingPosition;
+			this.init();
 		},
 		/**
 		 * Stops the game loop before destroying the component
@@ -56,6 +53,27 @@
 			}
 		},
 		methods: {
+			/**
+			 * Inits the main menu background canvas animation
+			 */
+			init() {
+				const canvasIds = {
+					background: 'menu-background'
+				};
+
+				const menuConfig = {
+					...config.menu
+				};
+
+				//set the selected background image
+				menuConfig.background.selectedBackground = this.image;
+
+				menuBackground = new MenuBackground(canvasIds, '.main-menu-background', this.images, menuConfig);
+				menuBackground.start();
+
+				//move the background image to the specified position
+				menuBackground.background.x = this.startingPosition;
+			},
 			/**
 			 * Returns the current background state
 			 * @returns {Object}

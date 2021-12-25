@@ -92,13 +92,24 @@ export default class GameClient {
 	}
 
 	/**
-	 * Stops the game loop
+	 * Stops the game loop and removes the created context/canvas elements
 	 */
 	stop() {
 		if (this.animationFrameId) {
 			cancelAnimationFrame(this.animationFrameId);
 			this.animationFrameId = null;
 		}
+
+		this.removeContexts();
+	}
+
+	/**
+	 * Deletes all context/canvas DOM elements
+	 */
+	removeContexts() {
+		_.forOwn(this.contexts, (value, key) => {
+			this.contexts[key].remove();
+		});
 	}
 
 	/**

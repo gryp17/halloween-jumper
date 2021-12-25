@@ -56,4 +56,11 @@ export default class Context {
 	show() {
 		this.canvas.style.display = 'block';
 	}
+
+	/**
+	 * Deletes the context/canvas DOM element
+	 */
+	remove() {
+		this.canvas.remove();
+	}
 }

@@ -40,6 +40,15 @@
 				menuBackground: null
 			};
 		},
+		watch: {
+			/**
+			 * Watch for the selectedBackground changes and update the background in the MainMenuBackground component
+			 * @param {String}
+			 */
+			selectedBackground(background) {
+				this.menuBackground = background;
+			}
+		},
 		computed: {
 			...mapState('ui', [
 				'mainMenuAnimationClass'
