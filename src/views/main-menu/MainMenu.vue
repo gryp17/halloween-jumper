@@ -99,14 +99,16 @@
 <style scoped lang="scss">
 	.main-menu {
 		display: flex;
+		justify-content: center;
+		align-items: center;
 		width: 100%;
-		height: 100%;
-		//fix for the jackInTheBox main menu intro animation
-		overflow-x: hidden;
+		margin: auto;
+		//fix for the bounceInLeft and jackInTheBox intro animations
+		overflow: visible;
 
 		.inner-wrapper {
+			height: 100%;
 			padding: 20px;
-			margin: auto;
 			max-width: 700px;
 			background-color: $transparent-background;
 			border-radius: 3px;

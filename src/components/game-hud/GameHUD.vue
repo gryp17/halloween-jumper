@@ -8,41 +8,43 @@
 		/>
 
 		<div class="buttons-wrapper">
-			<FormButton
-				transparent
+			<GameHUDButton
 				title="Toggle sound effects"
 				:active="sound"
 				@click="setSoundPreference('sound', !sound)"
 			>
 				<font-awesome-icon :icon="['fas', 'volume-up']" />
-			</FormButton>
+			</GameHUDButton>
 
-			<FormButton
-				transparent
+			<GameHUDButton
 				title="Toggle music"
 				:active="music"
 				@click="setSoundPreference('music', !music)"
 			>
 				<font-awesome-icon :icon="['fas', 'music']" />
-			</FormButton>
+			</GameHUDButton>
 
-			<FormButton
+			<GameHUDButton
 				v-if="showPauseButton"
-				transparent
 				title="Pause game"
 				:active="paused"
 				@click="pause"
 			>
 				<font-awesome-icon :icon="['fas', 'pause']" />
-			</FormButton>
+			</GameHUDButton>
 		</div>
 	</div>
 </template>
 
 <script>
+	import GameHUDButton from '@/components/game-hud/GameHUDButton';
 	import LivesDisplay from '@/components/game-hud/LivesDisplay';
 
 	export default {
+		components: {
+			GameHUDButton,
+			LivesDisplay
+		},
 		props: {
 			lives: Number,
 			dummyImage: String,
@@ -58,9 +60,6 @@
 				type: Boolean,
 				default: false
 			}
-		},
-		components: {
-			LivesDisplay
 		},
 		computed: {
 			/**
@@ -93,7 +92,7 @@
 
 <style scoped lang="scss">
 	.game-hud {
-		position: absolute;
+		position: fixed;
 		top: 0;
 		left: 0;
 		width: 100%;
@@ -107,38 +106,11 @@
 			right: 0px;
 			top: 0px;
 			padding: 15px;
-
-			.form-button {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				width: 43px;
-				height: 43px;
-				padding: 0px;
-				border-radius: 100%;
-				border: solid 2px lighten($orange, 10%);
-				background-color: $white;
-				opacity: 0.6;
-
-				svg {
-					width: 100%;
-					margin-right: 0px;
-				}
-
-				+ .form-button {
-					margin-left: 10px;
-				}
-
-				&.active, &:hover {
-					border-color: $orange;
-					opacity: 1;
-				}
-			}
 		}
 
 		@media (max-width: $small) {
 			.buttons-wrapper {
-				.form-button {
+				.game-hud-button {
 					width: 35px;
 					height: 35px;
 

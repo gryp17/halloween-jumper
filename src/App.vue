@@ -98,8 +98,9 @@
 
 		#app {
 			display: flex;
-			flex-direction: column;
-			height: 100%;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
 		}
 	}
 </style>
