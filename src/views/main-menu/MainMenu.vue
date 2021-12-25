@@ -126,5 +126,11 @@
 				padding: 5px;
 			}
 		}
+
+		@media (max-width: $medium) {
+			.game-hud {
+				display: none;
+			}
+		}
 	}
 </style>
