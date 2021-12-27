@@ -1,5 +1,5 @@
 # Halloween Jumper
-Stand alone/singleplayer implementation of the [GameHub's](https://github.com/gryp17/game-hub) jumper game. Halloween Jumper is a halloween themed jump and run game inspired by the first game I ever created back in 2012 - Java Jumper. 
+Stand alone/singleplayer implementation of [GameHub's](https://github.com/gryp17/game-hub) Jumper game. Halloween Jumper is a halloween themed jump and run game inspired by the first game I ever created back in 2012 - Java Jumper. 
 
 Currently live at: [https://halloween-jumper.gryp.dev](https://halloween-jumper.gryp.dev)
 
